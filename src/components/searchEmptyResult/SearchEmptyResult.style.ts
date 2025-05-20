@@ -57,6 +57,9 @@ export const guideContainerStyle = css`
   padding: 1.6rem;
   flex-direction: column;
   align-items: flex-start;
+
+  border-radius: 4px;
+  background: var(--gray-06, #F7F8F9);
 `;
 
 export const guideContentContainerStyle = css`
