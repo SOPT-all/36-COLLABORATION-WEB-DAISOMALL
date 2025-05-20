@@ -12,3 +12,5 @@ export { default as SearchIcon } from './SearchIcon';
 export { default as TohomeIcon } from './TohomeIcon';
 export { default as BarcodeIcon } from './BarcodeIcon';
 export { default as CancelIcon } from './CancelIcon';
+export { default as NoResultIcon } from './NoResultIcon';
+export { default as Caution2Icon } from './Caution2Icon';
