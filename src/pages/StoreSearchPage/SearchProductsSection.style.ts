@@ -44,11 +44,22 @@ export const ProductCardWrapper = css`
   border: 1px solid var(--gray-05, #ebe9ee);
   background: #fff;
   box-sizing: border-box;
+  overflow: hidden;
 
   @media (max-width: 768px) {
     width: 100%;
     min-width: 0;
   }
+`;
+
+export const ProductCardContent = css`
+  display: flex;
+  align-items: flex-start;
+  gap: 1.6rem;
+  flex: 1 0 0;
+  min-width: 0;
+  min-height: 0;
+  max-height: 100%;
 `;
 
 export const LoadingContainer = css`

@@ -2,9 +2,9 @@ import { css } from '@emotion/react';
 import theme from '@styles/theme';
 
 export const Wrapper = css`
-  display: fixed;
+  display: flex;
   justify-content: space-between;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -12,6 +12,7 @@ export const Wrapper = css`
   z-index: 100;
   border-top: 1px solid ${theme.colors['gray-05']};
   background: #fff;
+  transition: transform 0.3s ease-in-out;
 `;
 
 export const Container = css`
