@@ -4,13 +4,15 @@ import type { LocationCardDataType } from '@app-types/store';
 
 interface LocationCardListProps {
   stores: LocationCardDataType[];
+  productId: number;
 }
 
-const LocationCardList = ({ stores }: LocationCardListProps) => (
+const LocationCardList = ({ stores, productId }: LocationCardListProps) => (
   <>
     {stores.map((store) => (
       <LocationCard
         key={store.storeId}
+        productId={productId}
         storeName={store.storeName}
         address={store.location}
         time={store.openingHours}
