@@ -2,7 +2,6 @@ import { css } from '@emotion/react';
 import theme from '@styles/theme';
 
 export const homeWrapper = css`
-  padding-bottom: 5.6rem;
   position: relative;
   overflow-x: hidden;
   width: 100%;
@@ -11,6 +10,10 @@ export const homeWrapper = css`
 export const sectionWrapper = (hasBanner: boolean) => css`
   margin: ${hasBanner ? '1.6rem 0rem' : '2rem 0rem'};
   gap: 2.4rem;
+`;
+
+export const paddingWrapper = css`
+  height: 9rem;
 `;
 
 export const wrapper = css`

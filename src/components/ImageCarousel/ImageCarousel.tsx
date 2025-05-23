@@ -11,6 +11,7 @@ interface ImageCarouselProps {
   autoSlideInterval?: number;
   autoplay?: boolean;
   height?: string;
+  showSnsHotBadge?: boolean;
 }
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({
@@ -19,6 +20,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   autoSlideInterval = 5000,
   autoplay = true,
   height,
+  showSnsHotBadge = false,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -35,7 +37,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
     beforeChange: (_: number, nextIndex: number) => {
       setCurrentIndex(nextIndex);
     },
-    adaptiveHeight: !height, // height prop이 있으면 adaptiveHeight를 사용하지 않음
+    adaptiveHeight: !height, // Height prop이 있으면 adaptiveHeight를 사용하지 않음
   };
 
   return (
@@ -51,6 +53,28 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
           </div>
         ))}
       </Slider>
+      {showSnsHotBadge && (
+        <div
+          css={{
+            position: 'absolute',
+            top: '1.6rem',
+            left: '1.6rem',
+            width: '7rem',
+            height: '7rem',
+            zIndex: 10,
+          }}
+        >
+          <img
+            src="/sns-hot.png"
+            alt="SNS 핫템"
+            css={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
+      )}
       {images.length > 1 && (
         <div css={IndicatorPositionStyle(bottomPadding)}>
           <OrderIndicator

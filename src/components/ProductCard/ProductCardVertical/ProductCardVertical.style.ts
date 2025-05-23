@@ -131,6 +131,7 @@ export const priceSpan = css`
 export const StyledSpan = css`
   color: ${theme.colors['gray-01']};
   ${theme.fonts['heading-14B']};
+  line-height: 1;
 `;
 
 export const priceWrapper = css`
