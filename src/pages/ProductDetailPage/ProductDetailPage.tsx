@@ -15,21 +15,54 @@ import theme from '@styles/theme';
 import Divider from '@components/common/divider/Divider';
 import DividerThick from '@components/common/divider/DividerThick';
 import { useState, useRef, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import BottomCarousel from './components/Carousel/BottomCarousel';
 import Review from './components/Review/Review';
 import TodayDiscovery from './components/TodayDiscovery/TodayDiscovery';
 import Accordion from './components/Accordion/Accordion';
 import BuyBar from './components/BuyBar/BuyBar';
+import { getProductDetail } from '@apis/detail/product';
+import type { GetProductDetailResponseData } from '@app-types/product';
 
 const ProductDetailPage = () => {
-  // 예시 데이터
-  const productTitle = '다이소 베이직 노트북 파우치 15인치';
+  const { productId } = useParams<{ productId: string }>();
+  const [productData, setProductData] = useState<GetProductDetailResponseData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   
   const [isImageExpanded, setIsImageExpanded] = useState(false);
   const [isNavBarSticky, setIsNavBarSticky] = useState(false);
   const navBarRef = useRef<HTMLDivElement>(null);
 
-  const carouselImages = [
+  // API 호출
+  useEffect(() => {
+    const fetchProductDetail = async () => {
+      try {
+        setIsLoading(true);
+        const id = productId ? parseInt(productId) : 1; // productId가 없으면 기본값 1 사용
+        console.log('API 요청 - productId:', id);
+        
+        const response = await getProductDetail(id);
+        console.log('API 응답:', response);
+        
+        setProductData(response);
+      } catch (error) {
+        console.error('API 호출 실패:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProductDetail();
+  }, [productId]);
+
+  // 로딩 중일 때 표시
+  if (isLoading) {
+    return <div>로딩 중...</div>;
+  }
+
+  // API에서 받아온 데이터 또는 기본 더미 데이터
+  const productTitle = productData?.productName || '다이소 베이직 노트북 파우치 15인치';
+  const mainImages = productData?.productImages?.main?.map(img => img.imageUrl) || [
     'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
     'https://images.unsplash.com/photo-1560769629-975ec94e6a86',
     'https://images.unsplash.com/photo-1549298916-b41d501d3772'
@@ -77,7 +110,7 @@ const ProductDetailPage = () => {
       />
 
       {/* 2. 이미지 캐러셀 */}
-      <ImageCarousel images={carouselImages} height="50rem" />
+      <ImageCarousel images={mainImages} height="50rem" />
 
       {/* 3. 상품 정보 */}
       <ProductPageInfo />
@@ -117,7 +150,7 @@ const ProductDetailPage = () => {
 
       {/* 8. 이미지 캐러셀 (두번째) */}
       <ImageCarousel 
-        images={carouselImages.slice(0, 2)} 
+        images={mainImages.slice(0, 2)} 
         autoplay={false}
         height="8rem"
       />
@@ -138,7 +171,7 @@ const ProductDetailPage = () => {
 
       {/* 10. 브랜드 정보 */}
       <BrandInfo 
-        brandName="다이소"
+        brandName={productData?.brandName || "다이소"}
         brandDescription="일상을 다채롭게, 가격은 합리적으로! 다이소의 다양한 상품들을 만나보세요."
         brandImageUrl="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da"
         isLoading={false}

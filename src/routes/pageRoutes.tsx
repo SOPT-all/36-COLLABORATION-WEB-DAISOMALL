@@ -20,6 +20,12 @@ const pageRoutes: RouteType[] = [
     element: <ProductDetailPage />,
   },
 
+  // 임시 테스트용 경로
+  {
+    path: '/product-detail/1',
+    element: <ProductDetailPage />,
+  },
+
 ];
 
 export default pageRoutes;
