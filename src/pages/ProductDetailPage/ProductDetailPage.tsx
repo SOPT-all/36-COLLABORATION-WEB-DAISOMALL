@@ -313,21 +313,32 @@ const ProductDetailPage = () => {
             }
           />
           <div css={S.productsHorizontalStyle}>
-            {brandProductsData.products.slice(0, 5).map((product) => (
-              <ProductCardVertical 
-                key={product.productId}
-                id={product.productId}
-                size="96"
-                name={product.productName}
-                totalPrice={product.price.toLocaleString()}
-                imageUrl={undefined}
-                tags={product.tags.map(tag => ({ 
-                  label: tag, 
-                  bg: theme.colors['gray-05'], 
-                  color: theme.colors['primary'] 
-                }))}
-              />
-            ))}
+            {brandProductsData.products.slice(0, 5).map((product, index) => {
+              // 다양한 임시 이미지 URL 배열
+              const tempImages = [
+                "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb",
+                "https://images.unsplash.com/photo-1599751449128-eb7249c3d6b1",
+                "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6",
+                "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab12",
+                "https://images.unsplash.com/photo-1598662957563-ee4965d4d72c"
+              ];
+              
+              return (
+                <ProductCardVertical 
+                  key={product.productId}
+                  id={product.productId}
+                  size="96"
+                  name={product.productName}
+                  totalPrice={product.price.toLocaleString()}
+                  imageUrl={tempImages[index % tempImages.length]}
+                  tags={product.tags.map(tag => ({ 
+                    label: tag, 
+                    bg: theme.colors['gray-05'], 
+                    color: theme.colors['primary'] 
+                  }))}
+                />
+              );
+            })}
           </div>
         </div>
       )}
