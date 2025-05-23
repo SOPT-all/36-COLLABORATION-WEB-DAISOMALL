@@ -74,7 +74,7 @@ const ProductDetailPage = () => {
 
   // 로딩 중일 때 표시 (모든 Hook 호출 후)
   if (isLoading) {
-    return;
+    return <div>로딩 중...</div>;
   }
 
   // API에서 받아온 데이터만 사용 (더미 데이터 제거)
@@ -118,7 +118,13 @@ const ProductDetailPage = () => {
       <ImageCarousel images={mainImages} height="50rem" />
 
       {/* 3. 상품 정보 */}
-      <ProductPageInfo />
+      <ProductPageInfo 
+        brandName={productData?.brandName}
+        productName={productData?.productName}
+        price={productData?.price}
+        ratingAvg={productData?.ratingAvg}
+        reviewCount={productData?.reviewCount}
+      />
 
       {/* 4. 리뷰 캐러셀 */}
       <ReviewCarousel imageUrls={reviewImages} onMoreClick={() => console.log('리뷰 더보기 클릭')} />
