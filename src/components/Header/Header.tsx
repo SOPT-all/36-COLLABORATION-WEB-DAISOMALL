@@ -11,6 +11,7 @@ interface HeaderProps {
   showSearchIcon?: boolean;
   showHomeIcon?: boolean;
   showCartIcon?: boolean;
+  onBackClick?: () => void;
 }
 
 const Header = ({
@@ -22,9 +23,18 @@ const Header = ({
   showSearchIcon = false,
   showHomeIcon = false,
   showCartIcon = false,
+  onBackClick,
 }: HeaderProps) => {
   const navigate = useNavigate();
   const wrapperStyle = showHeader ? S.AnimatedWrapper(true) : S.Wrapper;
+
+  const handleBackClick = () => {
+    if (onBackClick) {
+      onBackClick();
+    } else {
+      navigate(-1);
+    }
+  };
 
   return (
     <div css={wrapperStyle}>
@@ -33,7 +43,7 @@ const Header = ({
         {showBackButton && (
           <BackIcon
             width={24}
-            onClick={() => navigate(-1)}
+            onClick={handleBackClick}
             style={{ cursor: 'pointer' }}
           />
         )}
