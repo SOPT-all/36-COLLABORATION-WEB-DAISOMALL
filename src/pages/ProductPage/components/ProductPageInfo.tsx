@@ -37,5 +37,6 @@ const ProductPageInfo = ({
       </button>
     </article>
   );
+};
 
 export default ProductPageInfo; 
