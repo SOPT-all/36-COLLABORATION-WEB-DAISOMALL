@@ -1,6 +1,5 @@
-import React from 'react';
 import SearchBar from '@components/SearchBar/SearchBar';
-import * as S from '../../pages/StoreSearchPage/PopularProductsSection.style';
+import * as S from '../../PopularProductsSection.style';
 
 export const LoadingState = ({ placeholder }: { placeholder: string }) => (
   <div css={S.PopularWrapper}>
@@ -30,4 +29,4 @@ export const EmptyState = ({ placeholder }: { placeholder: string }) => (
       <div>상품이 없습니다.</div>
     </div>
   </div>
-); 
+);

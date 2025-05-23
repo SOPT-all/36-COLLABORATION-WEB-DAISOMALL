@@ -4,8 +4,7 @@ import { ShareIcon } from '@assets/svgs';
 import ProductHeader from './ProductHeader';
 import Rating from './Rating';
 
-const ProductPageInfo = () => {
-  return (
+const ProductPageInfo = () => (
     <article css={S.ProductInfoWrapper}>
       <section css={S.ProductDetails}>
         <ProductHeader />
@@ -16,6 +15,5 @@ const ProductPageInfo = () => {
       </button>
     </article>
   );
-};
 
 export default ProductPageInfo; 
