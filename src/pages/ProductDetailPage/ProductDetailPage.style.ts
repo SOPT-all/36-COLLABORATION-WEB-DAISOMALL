@@ -59,7 +59,7 @@ export const productsGridStyle = css`
 
 export const stickyNavBarStyle = css`
   position: fixed;
-  top: 0;
+  top: 4.8rem;
   left: 0;
   right: 0;
   z-index: 100;

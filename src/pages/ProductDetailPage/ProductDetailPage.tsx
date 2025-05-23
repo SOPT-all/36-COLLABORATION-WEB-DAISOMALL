@@ -117,28 +117,30 @@ const ProductDetailPage = () => {
     setIsImageExpanded(true);
   };
 
+  const HEADER_HEIGHT_PX = 48;
+
   useEffect(() => {
     const handleScroll = () => {
-      if (navBarRef.current) {
-        const navBarPosition = navBarRef.current.getBoundingClientRect().top;
-        setIsNavBarSticky(navBarPosition <= 0);
-      }
+      if (!navBarRef.current) return;
+
+      const navBarTop = navBarRef.current.getBoundingClientRect().top;
+
+      setIsNavBarSticky(navBarTop <= HEADER_HEIGHT_PX);
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // 네비게이션 바 클릭 핸들러 추가
   const handleNavTabClick = (tabId: number) => {
     const navBarHeight = navBarRef.current?.offsetHeight || 0;
+    const totalOffset = navBarHeight + HEADER_HEIGHT_PX;
 
     switch (tabId) {
       case 1: // 상품설명 -> 브랜드 정보로 스크롤
         if (brandInfoRef.current) {
-          const targetPosition = brandInfoRef.current.offsetTop - navBarHeight;
+          const targetPosition = brandInfoRef.current.offsetTop - totalOffset;
           window.scrollTo({
             top: targetPosition,
             behavior: 'smooth',
@@ -147,7 +149,7 @@ const ProductDetailPage = () => {
         break;
       case 2: // 리뷰 -> 리뷰 컴포넌트로 스크롤
         if (reviewRef.current) {
-          const targetPosition = reviewRef.current.offsetTop - navBarHeight;
+          const targetPosition = reviewRef.current.offsetTop - totalOffset;
           window.scrollTo({
             top: targetPosition,
             behavior: 'smooth',

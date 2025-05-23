@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { useState, useRef, useEffect } from 'react';
 import * as S from './NavBar.style';
 
