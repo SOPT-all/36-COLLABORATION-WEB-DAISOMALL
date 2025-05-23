@@ -23,13 +23,13 @@ interface StoreNameSearchSectionProps {
   setKeyword: (value: string) => void;
 }
 
-const StoreNameSearchSection = ({ 
-  product, 
+const StoreNameSearchSection = ({
+  product,
   onTabSelect,
   selectedTab,
   onSearchClear,
   keyword,
-  setKeyword
+  setKeyword,
 }: StoreNameSearchSectionProps) => {
   const [filters, setFilters] = useState<FilterOption[]>([]);
 
@@ -63,10 +63,7 @@ const StoreNameSearchSection = ({
           !(
             (filters.includes('pickup-able') && !store.isPickupAvailable) ||
             (filters.includes('no-soldout') &&
-              (store.stockCount === 0 || store.stockStatus === '재고 소진')) ||
-            (filters.includes('no-store') &&
-              (store.storeType === 'FRANCHISE' ||
-                store.storeType === 'DISTRIBUTION'))
+              (store.stockCount === 0 || store.stockStatus === '재고 소진'))
           ),
       ),
     [stores, filters],
@@ -74,8 +71,8 @@ const StoreNameSearchSection = ({
 
   return (
     <div css={S.storeSectionWrapper}>
-      <SearchBar 
-        placeholder="상품명, 품번, 브랜드" 
+      <SearchBar
+        placeholder="상품명, 품번, 브랜드"
         value={keyword}
         onSearch={handleStoreSearch}
         onClear={handleClear}
