@@ -18,6 +18,8 @@ const GlobalStyle = css`
     min-height: 100vh;
     background-color: ${theme.colors.white};
     font-size: 62.5%;
+    overflow-x: hidden;
+    
   }
 
   #root {

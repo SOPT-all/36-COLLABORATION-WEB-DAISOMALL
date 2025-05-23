@@ -9,7 +9,11 @@ import { LoadingState, ErrorState, EmptyState } from '@components/storeSearch/St
 
 const PAGE_SIZE = 5;
 
-const PopularProductsSection = () => {
+interface PopularProductsSectionProps {
+  onSearch?: (keyword: string) => void;
+}
+
+const PopularProductsSection = ({ onSearch }: PopularProductsSectionProps) => {
   const { data, isLoading, error } = usePopularProducts();
   
   const allProducts = data?.pages ? data.pages.flat() : [];
@@ -28,6 +32,10 @@ const PopularProductsSection = () => {
     useSwipeNavigation
   );
 
+  const handleSearch = (keyword: string) => {
+    if (onSearch) onSearch(keyword);
+  };
+
   if (isLoading) {
     return <LoadingState placeholder="상품명, 품번, 브랜드" />;
   }
@@ -40,7 +48,10 @@ const PopularProductsSection = () => {
 
   return (
     <div css={S.PopularWrapper} {...swipeHandlers}>
-      <SearchBar placeholder="상품명, 품번, 브랜드" />
+      <SearchBar 
+        placeholder="상품명, 품번, 브랜드" 
+        onSearch={handleSearch}
+      />
       <div css={S.ResultWrapper}>
         <h2 css={S.Title}>지금 많이 찾는 상품</h2>
         {pagedProducts.map((product, idx) => (

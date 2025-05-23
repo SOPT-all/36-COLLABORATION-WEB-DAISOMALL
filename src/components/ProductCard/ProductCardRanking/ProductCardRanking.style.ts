@@ -20,6 +20,9 @@ export const rankingContent = (hasCode?: boolean) => css`
   display: flex;
   gap: ${hasCode ? '1.6rem' : '1.2rem'};
   flex: 1;
+  min-width: 0;
+  width: auto;
+  height: 100%;
 `;
 
 export const rankingNumber = css`
@@ -35,6 +38,7 @@ export const rankingImageWrapper = css`
   border-radius: 2px;
   overflow: hidden;
   position: relative;
+  max-height: 100%;
 `;
 
 export const rankingImage = css`

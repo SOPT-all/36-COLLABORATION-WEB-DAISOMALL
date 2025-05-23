@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as S from './searchBar.style';
 import { SearchIcon, BarcodeIcon, CancelIcon } from '@assets/svgs';
 
@@ -6,26 +6,34 @@ interface SearchBarProps {
   placeholder?: string;
   onSearch?: (keyword: string) => void;
   onClear?: () => void;
+  value?: string;
 }
 
 const SearchBar = ({
   placeholder = '상품명, 품번, 브랜드',
   onSearch,
   onClear,
+  value: externalValue,
 }: SearchBarProps) => {
-  const [value, setValue] = useState('');
+  const [internalValue, setInternalValue] = useState(externalValue || '');
+
+  useEffect(() => {
+    if (externalValue !== undefined) {
+      setInternalValue(externalValue);
+    }
+  }, [externalValue]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    setInternalValue(e.target.value);
   };
 
   const handleClear = () => {
-    setValue('');
+    setInternalValue('');
     onClear?.();
   };
 
   const handleSearch = () => {
-    if (value.trim()) onSearch?.(value.trim());
+    if (internalValue.trim()) onSearch?.(internalValue.trim());
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -40,14 +48,14 @@ const SearchBar = ({
         css={S.input}
         type="text"
         aria-label="검색창"
-        value={value}
+        value={internalValue}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
       />
 
-      <div css={S.iconWrapper(value !== '')}>
-        {value === '' ? (
+      <div css={S.iconWrapper(internalValue !== '')}>
+        {internalValue === '' ? (
           <>
             <BarcodeIcon width={24} />
             <div css={S.divider} />

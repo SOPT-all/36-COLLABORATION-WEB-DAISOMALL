@@ -2,7 +2,7 @@ import * as R from '@components/ProductCard/ProductCardRanking/ProductCardRankin
 import ProductTag from '@components/Tag/ProductTag';
 import { CartIcon } from '@assets/svgs';
 import type { ProductTagData } from '@components/Tag/tagData';
-import { useState, memo } from 'react';
+import { memo } from 'react';
 import LazyImage from './LazyImage';
 
 interface ProductCardRankingProps {
@@ -24,18 +24,16 @@ const ProductCardRanking = ({
   code,
   showCartIcon = true,
 }: ProductCardRankingProps) => {
-  const [imgLoaded, setImgLoaded] = useState(false);
 
   return (
     <div css={R.rankingWrapper(!!code)}>
       <div css={R.rankingContent(!!code)}>
-        <div css={R.rankingNumber}>{rank}</div>
+        {rank && <div css={R.rankingNumber}>{rank}</div>}
 
         <div css={R.rankingImageWrapper}>
           <LazyImage
             src={imageUrl}
             alt={name}
-            className={R.rankingImage.name}
           />
         </div>
 
