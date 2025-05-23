@@ -224,7 +224,7 @@ const ProductDetailPage = () => {
                 size="96"
                 name={product.productName}
                 totalPrice={product.price.toLocaleString()}
-                imageUrl={undefined}
+                imageUrl={product.mainImage}
                 tags={[{ label: '인기', bg: '#FF5C5C', color: '#FFFFFF' }]}
               />
             ))}
