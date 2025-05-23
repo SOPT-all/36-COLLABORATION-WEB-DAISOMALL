@@ -3,10 +3,12 @@ import theme from '@styles/theme';
 
 export const Wrapper = css`
   width: 100%;
-  padding: 3.2rem 0;
+  padding-bottom: 3.2rem;
+  padding-top: 3.2rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  
 `;
 
 export const Title = css`

@@ -66,10 +66,9 @@ export const Price = css`
 
 export const PriceAmount = css`
   color: ${theme.colors.black};
-  font-size: 24px;
-  font-family: DAISOA;
-  font-weight: 400;
+  ${theme.fonts['number-24R']};
   word-wrap: break-word;
+  padding-right: 0.1rem;
 `;
 
 export const PriceUnit = css`
@@ -78,4 +77,5 @@ export const PriceUnit = css`
   font-family: Pretendard;
   font-weight: 800;
   word-wrap: break-word;
+  padding-bottom: 0.3rem;
 `; 

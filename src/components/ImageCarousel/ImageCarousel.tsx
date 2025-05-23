@@ -10,6 +10,8 @@ interface ImageCarouselProps {
   bottomPadding?: string;
   autoSlideInterval?: number;
   autoplay?: boolean;
+  height?: string;
+  showSnsHotBadge?: boolean;
 }
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({
@@ -17,6 +19,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   bottomPadding = '1.1rem',
   autoSlideInterval = 5000,
   autoplay = true,
+  height,
+  showSnsHotBadge = false,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -24,37 +28,59 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   const settings = {
     dots: false,
     arrows: false,
-    infinite: true,
+    infinite: images.length > 1,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: autoplay && !!autoSlideInterval,
+    autoplay: autoplay && !!autoSlideInterval && images.length > 1,
     autoplaySpeed: autoSlideInterval,
     beforeChange: (_: number, nextIndex: number) => {
       setCurrentIndex(nextIndex);
     },
-    adaptiveHeight: true, // 이미지 높이에 따라 슬라이더 높이 조절
+    adaptiveHeight: !height, // height prop이 있으면 adaptiveHeight를 사용하지 않음
   };
 
   return (
-    <div css={CarouselContainer}>
+    <div css={CarouselContainer(height)}>
       <Slider {...settings}>
         {images.map((image, index) => (
           <div key={index}>
             <img
               src={image}
               alt={`Carousel Image ${index + 1}`}
-              css={CarouselImage}
+              css={CarouselImage(height)}
             />
           </div>
         ))}
       </Slider>
-      <div css={IndicatorPositionStyle(bottomPadding)}>
-        <OrderIndicator
-          currentIndex={currentIndex}
-          totalItems={images.length}
-        />
-      </div>
+      {showSnsHotBadge && (
+        <div css={{
+          position: 'absolute',
+          top: '1.6rem',
+          left: '1.6rem',
+          width: '7rem',
+          height: '7rem',
+          zIndex: 10
+        }}>
+          <img 
+            src="/sns-hot.png" 
+            alt="SNS 핫템" 
+            css={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain'
+            }} 
+          />
+        </div>
+      )}
+      {images.length > 1 && (
+        <div css={IndicatorPositionStyle(bottomPadding)}>
+          <OrderIndicator
+            currentIndex={currentIndex}
+            totalItems={images.length}
+          />
+        </div>
+      )}
     </div>
   );
 };

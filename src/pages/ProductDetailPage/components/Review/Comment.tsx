@@ -26,7 +26,11 @@ const Comment = ({
     <div css={S.FirstContainer}>
       <div css={S.FirstLeftContainer}>
         <div css={S.ProfileSection}>
-          <img src={profileImageUrl} alt="프로필" width={20} height={20} />
+          {profileImageUrl ? (
+            <img src={profileImageUrl} alt="프로필" width={20} height={20} />
+          ) : (
+            <div style={{ width: 20, height: 20, borderRadius: '50%', backgroundColor: '#f0f0f0' }} />
+          )}
           <p css={S.BodyTextStyle}>{nickname}</p>
         </div>
         <div css={S.MiddleSection}>

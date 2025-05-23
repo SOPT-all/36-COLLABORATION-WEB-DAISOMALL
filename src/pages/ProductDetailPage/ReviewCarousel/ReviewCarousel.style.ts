@@ -9,7 +9,7 @@ export const container = css`
   align-items: center;
   gap: 0.6rem;
   overflow-x: auto;
-  padding-bottom: 3.2rem;
+  padding: 0 1.6rem 3.2rem 1.6rem;
 
   /* 스크롤바 숨기기 */
   scrollbar-width: none; /* Firefox */

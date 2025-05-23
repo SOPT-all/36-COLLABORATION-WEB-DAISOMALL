@@ -1,6 +1,5 @@
 import type { RouteType } from '@app-types/routeType';
 import HomePage from '@pages/HomePage/HomePage';
-import ProductDetailBottom from '@pages/ProductDetailPage/productDetailBottom';
 import ProductDetailPage from '@pages/ProductDetailPage/ProductDetailPage';
 import StoreSearchPage from '@pages/StoreSearchPage/StoreSearchPage';
 import routePath from '@routes/routePath';
@@ -21,10 +20,12 @@ const pageRoutes: RouteType[] = [
     element: <ProductDetailPage />,
   },
 
+  // 임시 테스트용 경로
   {
-    path: routePath.PRODUCT_DETAIL_BOTTOM,
-    element: <ProductDetailBottom />,
+    path: '/product-detail/1',
+    element: <ProductDetailPage />,
   },
+
 ];
 
 export default pageRoutes;
