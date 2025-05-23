@@ -1,4 +1,16 @@
-# 🛒 다이소몰 모바일웹 4조
+<p align="center">
+  <img src="src/assets/daiso_logo.png" alt="다이소 로고" width="300"/>
+</p>
+
+# 다이소몰 모바일웹 4조 🛒❤️
+
+<br/>
+
+<p align="center">
+  <img src="src/assets/team_photo.png" alt="우리 팀 사진" width="600"/>
+</p>
+
+<br/>
 
 ## 프로젝트 소개
 
@@ -15,9 +27,9 @@
 
 ## 👥 팀원 및 역할 분담
 
-| <img src="https://github.com/maehwasoo.png" width="100" /> | <img src="https://github.com/shinjigu.png" width="100" /> | <img src="https://github.com/Dubabbi.png" width="100" /> | <img src="https://github.com/bongtta.png" width="100" /> |
+| 엄경호 | 신지수 | 윤소은 | 김채은 |
 | :---: | :---: | :---: | :---: |
-| **엄경호**<br>[@maehwasoo](https://github.com/maehwasoo) | **신지수**<br>[@shinjigu](https://github.com/shinjigu) | **윤소은**<br>[@Dubabbi](https://github.com/Dubabbi) | **김채은**<br>[@bongtta](https://github.com/bongtta) |
+| [@maehwasoo](https://github.com/maehwasoo) | [@shinjigu](https://github.com/shinjigu) | [@Dubabbi](https://github.com/Dubabbi) | [@bongtta](https://github.com/bongtta) |
 
 ## 역할 분담 및 구현 파트 소개
 
