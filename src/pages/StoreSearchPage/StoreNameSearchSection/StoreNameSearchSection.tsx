@@ -90,7 +90,12 @@ const StoreNameSearchSection = ({
       <div css={S.filterTabWrapper}>
         <FilterTabs onChange={handleFilterChange} selectedTab={selectedTab} />
       </div>
-      {!isLoading && <LocationCardList stores={filteredStores} />}
+      {!isLoading && (
+        <LocationCardList
+          productId={product.productId}
+          stores={filteredStores}
+        />
+      )}
     </div>
   );
 };

@@ -1,5 +1,6 @@
 export interface LocationCardDataType {
   storeId: number;
+  productId: number;
   storeName: string;
   location: string;
   openingHours: string;

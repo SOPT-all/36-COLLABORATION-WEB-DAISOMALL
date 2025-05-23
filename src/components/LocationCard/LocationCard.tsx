@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as S from './LocationCard.style';
 import { LikeIcon } from '@assets/svgs';
 import StoreStatus from '@components/LocationCard/StoreStatus/StoreStatus';
@@ -10,6 +11,7 @@ interface LocationCardProps {
   distance: string;
   address: string;
   isOpen: boolean;
+  productId: number;
   time: string;
   floor?: string;
   stand?: string;
@@ -28,12 +30,17 @@ const LocationCard = ({
   floor,
   stand,
   stock,
+  productId,
   isSoldOut = false,
   isFranchise = false,
   isPickupAvailable = false,
 }: LocationCardProps) => {
   const [liked, setLiked] = useState(false);
+  const navigate = useNavigate();
 
+  const handleTagClick = () => {
+    navigate(`/product-detail/${productId}`);
+  };
   return (
     <div css={S.wrapper}>
       <div css={S.topSection}>
@@ -93,7 +100,7 @@ const LocationCard = ({
             </div>
           </div>
 
-          <StoreActionButton isSoldOut={isSoldOut} />
+          <StoreActionButton onClick={handleTagClick} isSoldOut={isSoldOut} />
         </div>
       )}
     </div>
