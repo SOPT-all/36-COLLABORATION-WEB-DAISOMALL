@@ -20,8 +20,8 @@ import Review from './components/Review/Review';
 import TodayDiscovery from './components/TodayDiscovery/TodayDiscovery';
 import Accordion from './components/Accordion/Accordion';
 import BuyBar from './components/BuyBar/BuyBar';
-import { getProductDetail, getReviews, getBrandProducts, getPopularProducts } from '@apis/detail/product';
-import type { GetProductDetailResponseData, GetReviewsResponseData, GetBrandProductsResponseData, GetPopularProductsResponseData } from '@app-types/product';
+import { getProductDetail, getReviews, getBrandProducts, getPopularProducts, getCategoryProducts } from '@apis/detail/product';
+import type { GetProductDetailResponseData, GetReviewsResponseData, GetBrandProductsResponseData, GetPopularProductsResponseData, GetCategoryProductsResponseData } from '@app-types/product';
 
 const ProductDetailPage = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -29,6 +29,7 @@ const ProductDetailPage = () => {
   const [reviewData, setReviewData] = useState<GetReviewsResponseData | null>(null);
   const [brandProductsData, setBrandProductsData] = useState<GetBrandProductsResponseData | null>(null);
   const [popularProductsData, setPopularProductsData] = useState<GetPopularProductsResponseData | null>(null);
+  const [categoryProductsData, setCategoryProductsData] = useState<GetCategoryProductsResponseData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   
   const [isImageExpanded, setIsImageExpanded] = useState(false);
@@ -48,23 +49,26 @@ const ProductDetailPage = () => {
         const id = productId ? parseInt(productId) : 1; // productId가 없으면 기본값 1 사용
         console.log('API 요청 - productId:', id);
         
-        // 상품 정보, 리뷰, 브랜드별 상품, 인기 상품을 병렬로 호출
-        const [productResponse, reviewResponse, brandProductsResponse, popularProductsResponse] = await Promise.all([
+        // 상품 정보, 리뷰, 브랜드별 상품, 인기 상품, 카테고리별 상품을 병렬로 호출
+        const [productResponse, reviewResponse, brandProductsResponse, popularProductsResponse, categoryProductsResponse] = await Promise.all([
           getProductDetail(id),
           getReviews(id, 0, 20), // 첫 번째 페이지, 20개씩
           getBrandProducts(1, 0, 10), // brandId는 1로 고정, 10개씩
           getPopularProducts(), // 인기 상품 조회
+          getCategoryProducts('BEAUTY_HYGIENE', 0, 20), // 카테고리별 상품 조회
         ]);
         
         console.log('상품 API 응답:', productResponse);
         console.log('리뷰 API 응답:', reviewResponse);
         console.log('브랜드별 상품 API 응답:', brandProductsResponse);
         console.log('인기 상품 API 응답:', popularProductsResponse);
+        console.log('카테고리별 상품 API 응답:', categoryProductsResponse);
         
         setProductData(productResponse);
         setReviewData(reviewResponse);
         setBrandProductsData(brandProductsResponse);
         setPopularProductsData(popularProductsResponse);
+        setCategoryProductsData(categoryProductsResponse);
       } catch (error) {
         console.error('API 호출 실패:', error);
       } finally {
@@ -220,7 +224,7 @@ const ProductDetailPage = () => {
                 size="96"
                 name={product.productName}
                 totalPrice={product.price.toLocaleString()}
-                imageUrl="https://images.unsplash.com/photo-1542291026-7eec264c27ff" // 임시 이미지
+                imageUrl={undefined}
                 tags={[{ label: '인기', bg: '#FF5C5C', color: '#FFFFFF' }]}
               />
             ))}
@@ -305,7 +309,7 @@ const ProductDetailPage = () => {
                 size="96"
                 name={product.productName}
                 totalPrice={product.price.toLocaleString()}
-                imageUrl="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb" // 임시 이미지
+                imageUrl={undefined}
                 tags={product.tags.map(tag => ({ 
                   label: tag, 
                   bg: theme.colors['gray-05'], 
@@ -320,21 +324,21 @@ const ProductDetailPage = () => {
       <Divider height="8px" color={theme.colors['gray-06']} />
 
       {/* 14. 관련 상품 추천 */}
-      {brandProductsData?.products && brandProductsData.products.length > 3 && (
+      {categoryProductsData?.products && categoryProductsData.products.length > 0 && (
         <div css={S.recommendedProductsStyle}>
           <SectionTitle 
             title1="이런 기초스킨케어 상품은 어때요?"
             onClickAll={() => console.log('이런 기초스킨케어 상품은 어때요? 전체보기 클릭')}
           />
           <div css={S.productsHorizontalStyle}>
-            {brandProductsData.products.slice(3, 6).map((product) => (
+            {categoryProductsData.products.slice(0, 3).map((product) => (
               <ProductCardVertical 
                 key={product.productId}
                 id={product.productId}
                 size="96"
                 name={product.productName}
                 totalPrice={product.price.toLocaleString()}
-                imageUrl="https://images.unsplash.com/photo-1543508282-6319a3e2621f" // 임시 이미지
+                imageUrl={product.mainImage}
                 tags={product.tags.map(tag => ({ 
                   label: tag, 
                   bg: theme.colors['primary'], 
