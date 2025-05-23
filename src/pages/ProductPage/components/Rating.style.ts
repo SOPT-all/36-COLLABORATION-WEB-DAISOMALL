@@ -12,6 +12,7 @@ export const Rating = css`
 export const RatingIconWrapper = css`
   width: 1.1rem;
   height: 1.1rem;
+  display: flex;
   justify-content: center;
   align-items: center;
 `;
