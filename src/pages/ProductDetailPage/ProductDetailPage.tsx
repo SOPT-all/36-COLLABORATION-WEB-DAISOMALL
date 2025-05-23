@@ -55,7 +55,25 @@ const ProductDetailPage = () => {
     fetchProductDetail();
   }, [productId]);
 
-  // 로딩 중일 때 표시
+  const handleExpandImage = () => {
+    setIsImageExpanded(true);
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (navBarRef.current) {
+        const navBarPosition = navBarRef.current.getBoundingClientRect().top;
+        setIsNavBarSticky(navBarPosition <= 0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  // 로딩 중일 때 표시 (모든 Hook 호출 후)
   if (isLoading) {
     return <div>로딩 중...</div>;
   }
@@ -78,24 +96,6 @@ const ProductDetailPage = () => {
     'https://images.unsplash.com/photo-1543508282-6319a3e2621f',
     'https://images.unsplash.com/photo-1607522370275-f14206abe5d3'
   ];
-
-  const handleExpandImage = () => {
-    setIsImageExpanded(true);
-  };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (navBarRef.current) {
-        const navBarPosition = navBarRef.current.getBoundingClientRect().top;
-        setIsNavBarSticky(navBarPosition <= 0);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
 
   return (
     <div css={S.productDetailStyle}>
