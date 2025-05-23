@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import Header from '@components/Header/Header';
 import ImageCarousel from '@components/ImageCarousel/ImageCarousel';
 import ProductPageInfo from '../ProductPage/components/ProductPageInfo';
@@ -59,6 +58,7 @@ const ProductDetailPage = () => {
   const brandInfoRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
   const buyBarRef = useRef<HTMLDivElement>(null);
+  const accordionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -118,19 +118,46 @@ const ProductDetailPage = () => {
   };
 
   const HEADER_HEIGHT_PX = 48;
+  const [activeTab, setActiveTab] = useState(1);
+  const SCROLL_MARGIN = 20; // 여유 마진 추가
 
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      if (!navBarRef.current) return;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const navBarHeight = navBarRef.current?.offsetHeight ?? 0;
+          const offset = navBarHeight + HEADER_HEIGHT_PX;
 
-      const navBarTop = navBarRef.current.getBoundingClientRect().top;
+          const navBarTop =
+            navBarRef.current?.getBoundingClientRect().top ?? 9999;
+          setIsNavBarSticky(navBarTop <= HEADER_HEIGHT_PX);
 
-      setIsNavBarSticky(navBarTop <= HEADER_HEIGHT_PX);
+          const brandTop = brandInfoRef.current?.offsetTop ?? 0;
+          const reviewTop = reviewRef.current?.offsetTop ?? 0;
+          const accordionTop = accordionRef.current?.offsetTop ?? 0;
+
+          const currentScroll = scrollY + offset + SCROLL_MARGIN;
+
+          if (currentScroll >= accordionTop) {
+            if (activeTab !== 3) setActiveTab(3);
+          } else if (currentScroll >= reviewTop) {
+            if (activeTab !== 2) setActiveTab(2);
+          } else if (currentScroll >= brandTop) {
+            if (activeTab !== 1) setActiveTab(1);
+          }
+
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [activeTab]);
 
   // 네비게이션 바 클릭 핸들러 추가
   const handleNavTabClick = (tabId: number) => {
@@ -156,10 +183,11 @@ const ProductDetailPage = () => {
           });
         }
         break;
-      case 3: // 상품정보 -> 페이지 최하단으로 스크롤
-        if (buyBarRef.current) {
+      case 3: // 상품정보 → Accordion으로 스크롤
+        if (accordionRef.current) {
+          const targetPosition = accordionRef.current.offsetTop - totalOffset;
           window.scrollTo({
-            top: document.body.scrollHeight,
+            top: targetPosition,
             behavior: 'smooth',
           });
         }
@@ -326,6 +354,8 @@ const ProductDetailPage = () => {
           <NavBar
             onTabClick={handleNavTabClick}
             reviewCount={reviewData?.reviews?.length}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
           />
         </div>
       )}
@@ -333,6 +363,8 @@ const ProductDetailPage = () => {
         <NavBar
           onTabClick={handleNavTabClick}
           reviewCount={reviewData?.reviews?.length}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
         />
       </div>
 
@@ -494,7 +526,9 @@ const ProductDetailPage = () => {
       <Divider height="8px" color={theme.colors['gray-06']} />
 
       {/* 18. 기타 정보 */}
-      <Accordion />
+      <div ref={accordionRef}>
+        <Accordion />
+      </div>
       <div ref={buyBarRef}>
         <BuyBar />
       </div>
