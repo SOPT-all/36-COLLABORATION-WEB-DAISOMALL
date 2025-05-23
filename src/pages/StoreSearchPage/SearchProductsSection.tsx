@@ -6,6 +6,7 @@ import SearchResultTitle from '@components/searchResultTitle/SearchResultTitle';
 import SearchEmptyResult from '@components/searchEmptyResult/SearchEmptyResult';
 import { useSearchProducts } from '@hooks/queries/useSearchProducts';
 import type { SearchProductsResponseData, SortOptionType } from '@app-types/apiResponseType';
+import useDebounce from '@hooks/useDebounce';
 
 type SortOption = SortOptionType;
 
@@ -21,8 +22,11 @@ const SearchProductsSection = ({
   const [keyword, setKeyword] = useState(initialKeyword);
   const [sortOption, setSortOption] = useState<SortOption | undefined>(undefined);
   
+  // debounce 적용
+  const debouncedKeyword = useDebounce(keyword, 300);
+  
   const { data, isLoading, error } = useSearchProducts(
-    keyword,
+    debouncedKeyword,
     0,
     20,
     sortOption
