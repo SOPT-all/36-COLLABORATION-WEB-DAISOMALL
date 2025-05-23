@@ -217,7 +217,18 @@ const ProductDetailPage = () => {
             onClickAll={() => console.log('다른 고객이 함께 본 상품 전체보기 클릭')}
           />
           <div css={S.productsHorizontalStyle}>
-            {popularProductsData.pages[0]?.slice(0, 3).map((product) => (
+            {popularProductsData.pages[0]?.slice(0, 5).map((product) => (
+              <ProductCardVertical 
+                key={product.productId}
+                id={product.productId}
+                size="96"
+                name={product.productName}
+                totalPrice={product.price.toLocaleString()}
+                imageUrl={product.mainImage}
+                tags={[{ label: '인기', bg: '#FF5C5C', color: '#FFFFFF' }]}
+              />
+            ))}
+            {popularProductsData.pages[1]?.slice(0, 3).map((product) => (
               <ProductCardVertical 
                 key={product.productId}
                 id={product.productId}
@@ -302,7 +313,7 @@ const ProductDetailPage = () => {
             }
           />
           <div css={S.productsHorizontalStyle}>
-            {brandProductsData.products.slice(0, 3).map((product) => (
+            {brandProductsData.products.slice(0, 5).map((product) => (
               <ProductCardVertical 
                 key={product.productId}
                 id={product.productId}
@@ -331,7 +342,7 @@ const ProductDetailPage = () => {
             onClickAll={() => console.log('이런 기초스킨케어 상품은 어때요? 전체보기 클릭')}
           />
           <div css={S.productsHorizontalStyle}>
-            {categoryProductsData.products.slice(0, 3).map((product) => (
+            {categoryProductsData.products.slice(0, 5).map((product) => (
               <ProductCardVertical 
                 key={product.productId}
                 id={product.productId}
