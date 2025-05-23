@@ -37,7 +37,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
     beforeChange: (_: number, nextIndex: number) => {
       setCurrentIndex(nextIndex);
     },
-    adaptiveHeight: !height, // height prop이 있으면 adaptiveHeight를 사용하지 않음
+    adaptiveHeight: !height, // Height prop이 있으면 adaptiveHeight를 사용하지 않음
   };
 
   return (
@@ -54,22 +54,24 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
         ))}
       </Slider>
       {showSnsHotBadge && (
-        <div css={{
-          position: 'absolute',
-          top: '1.6rem',
-          left: '1.6rem',
-          width: '7rem',
-          height: '7rem',
-          zIndex: 10
-        }}>
-          <img 
-            src="/sns-hot.png" 
-            alt="SNS 핫템" 
+        <div
+          css={{
+            position: 'absolute',
+            top: '1.6rem',
+            left: '1.6rem',
+            width: '7rem',
+            height: '7rem',
+            zIndex: 10,
+          }}
+        >
+          <img
+            src="/sns-hot.png"
+            alt="SNS 핫템"
             css={{
               width: '100%',
               height: '100%',
-              objectFit: 'contain'
-            }} 
+              objectFit: 'contain',
+            }}
           />
         </div>
       )}

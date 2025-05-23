@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import * as H from '@pages/HomePage/HomeSectionCard/HomeSectionCard.style';
 import HomeCarousel from '@components/homeCarousel/HomeCarousel';
@@ -17,9 +18,13 @@ import { THIRD_PRODUCTS } from '@pages/HomePage/mockData/section3Data';
 import { FOURTH_PRODUCTS } from '@pages/HomePage/mockData/section4Data';
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const [rankingPage, setRankingPage] = useState(1);
   const slideContents = getSlideRankingProducts();
 
+  const handleStoreSearchClick = () => {
+    navigate('/store-list', { state: { fromQuickMenu: true } });
+  };
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -39,7 +44,7 @@ const HomePage = () => {
       <Header showHeader={showHeader} showLogo showSearchIcon showCartIcon />
       <HeaderNav headerVisible={showHeader} />
       <HomeCarousel />
-      <QuickMenuBar />
+      <QuickMenuBar onStoreSearchClick={handleStoreSearchClick} />
       <Divider />
 
       <HomeSectionCard

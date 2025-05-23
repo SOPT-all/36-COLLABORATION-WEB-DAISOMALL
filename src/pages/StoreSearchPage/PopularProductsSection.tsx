@@ -14,11 +14,13 @@ import {
 const PAGE_SIZE = 5;
 
 interface PopularProductsSectionProps {
+  id?: string;
   onSearch?: (keyword: string) => void;
   onProductSelect?: (productId: number) => void;
 }
 
 const PopularProductsSection = ({
+  id,
   onSearch,
   onProductSelect,
 }: PopularProductsSectionProps) => {
@@ -55,7 +57,7 @@ const PopularProductsSection = ({
   }
 
   return (
-    <div css={S.PopularWrapper} {...swipeHandlers}>
+    <div css={S.PopularWrapper} {...swipeHandlers} id={id}>
       <SearchBar placeholder="상품명, 품번, 브랜드" onSearch={handleSearch} />
       <div css={S.ResultWrapper}>
         <h2 css={S.Title}>지금 많이 찾는 상품</h2>
