@@ -35,6 +35,11 @@ const ProductDetailPage = () => {
   const [isNavBarSticky, setIsNavBarSticky] = useState(false);
   const navBarRef = useRef<HTMLDivElement>(null);
 
+  // 스크롤 대상 섹션들에 대한 ref 추가
+  const brandInfoRef = useRef<HTMLDivElement>(null);
+  const reviewRef = useRef<HTMLDivElement>(null);
+  const buyBarRef = useRef<HTMLDivElement>(null);
+
   // API 호출
   useEffect(() => {
     const fetchData = async () => {
@@ -87,6 +92,40 @@ const ProductDetailPage = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  // 네비게이션 바 클릭 핸들러 추가
+  const handleNavTabClick = (tabId: number) => {
+    const navBarHeight = navBarRef.current?.offsetHeight || 0;
+    
+    switch (tabId) {
+      case 1: // 상품설명 -> 브랜드 정보로 스크롤
+        if (brandInfoRef.current) {
+          const targetPosition = brandInfoRef.current.offsetTop - navBarHeight;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+        break;
+      case 2: // 리뷰 -> 리뷰 컴포넌트로 스크롤
+        if (reviewRef.current) {
+          const targetPosition = reviewRef.current.offsetTop - navBarHeight;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+        break;
+      case 3: // 상품정보 -> 페이지 최하단으로 스크롤
+        if (buyBarRef.current) {
+          window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+          });
+        }
+        break;
+    }
+  };
 
   // 로딩 중일 때 표시 (모든 Hook 호출 후)
   if (isLoading) {
@@ -198,22 +237,24 @@ const ProductDetailPage = () => {
       {/* 9. 네비게이션 바 */}
       {isNavBarSticky && (
         <div css={S.stickyNavBarStyle}>
-          <NavBar />
+          <NavBar onTabClick={handleNavTabClick} reviewCount={reviewData?.reviews?.length} />
         </div>
       )}
       <div ref={navBarRef}>
-        <NavBar />
+        <NavBar onTabClick={handleNavTabClick} reviewCount={reviewData?.reviews?.length} />
       </div>
 
       <Divider />
 
       {/* 10. 브랜드 정보 */}
-      <BrandInfo 
-        brandName="VT"
-        brandDescription="유행을 창조하는 Stylish와 시간에 구애받지 않는 Timeless 효과로 당신의 매일을 함께하는 VT의 스페셜 홈케어! 리들샷의 따끔한 미세자극으로 건강한 피부를 가꿔보세요."
-        brandImageUrl="/VT.png"
-        isLoading={false}
-      />
+      <div ref={brandInfoRef}>
+        <BrandInfo 
+          brandName="VT"
+          brandDescription="유행을 창조하는 Stylish와 시간에 구애받지 않는 Timeless 효과로 당신의 매일을 함께하는 VT의 스페셜 홈케어! 리들샷의 따끔한 미세자극으로 건강한 피부를 가꿔보세요."
+          brandImageUrl="/VT.png"
+          isLoading={false}
+        />
+      </div>
 
       {/* 11. 이미지 영역 - API productImages.detail 배열의 첫 번째 이미지 사용 */}
       {detailImages.length > 0 && (
@@ -305,16 +346,20 @@ const ProductDetailPage = () => {
       <Divider height="8px" color={theme.colors['gray-06']} />
 
       {/* 17. 리뷰 */}  
-      <Review 
-        reviewData={reviewData}
-        productData={productData}
-        reviewImages={reviewImages}
-      />
+      <div ref={reviewRef}>
+        <Review 
+          reviewData={reviewData}
+          productData={productData}
+          reviewImages={reviewImages}
+        />
+      </div>
       <Divider height="8px" color={theme.colors['gray-06']} />
 
       {/* 18. 기타 정보 */}
       <Accordion />
-      <BuyBar />
+      <div ref={buyBarRef}>
+        <BuyBar />
+      </div>
     </div>
     
   );
