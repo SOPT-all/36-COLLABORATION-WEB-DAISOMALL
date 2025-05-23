@@ -5,6 +5,7 @@ export const homeWrapper = css`
   position: relative;
   overflow-x: hidden;
   width: 100%;
+  padding-top: 9.5rem;
 `;
 
 export const sectionWrapper = (hasBanner: boolean) => css`
