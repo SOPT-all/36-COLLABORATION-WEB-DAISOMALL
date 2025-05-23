@@ -1,6 +1,9 @@
 import type { SVGProps } from 'react';
 
-const SmallArrowDownIcon = (props: SVGProps<SVGSVGElement>) => (
+const SmallArrowDownIcon = ({
+  stroke = '#374553',
+  ...props
+}: SVGProps<SVGSVGElement>) => (
   <svg
     width="12"
     height="7"
@@ -9,7 +12,7 @@ const SmallArrowDownIcon = (props: SVGProps<SVGSVGElement>) => (
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
-    <path d="M11 1L6 6L1 1" stroke="currentColor" strokeLinecap="square" />
+    <path d="M11 1L6 6L1 1" stroke={stroke} strokeLinecap="square" />
   </svg>
 );
 
