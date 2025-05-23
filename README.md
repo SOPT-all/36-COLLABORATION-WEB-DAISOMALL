@@ -40,7 +40,7 @@
 | --- | --- |
 | setting ⚙️ | `svg 세팅` `스타일 커스텀 (theme, global)` `router 설정` |
 | view 📱 | `제품 상세페이지` |
-| api 📡 | `GET - 상품 상세 조회` `GET - 상품 리뷰 조회` |
+| api 📡 | `GET - 상품 상세 조회`<br>`GET - 상품 리뷰 조회` |
 
 ### 🌏 신지수
 
@@ -48,7 +48,7 @@
 | --- | --- |
 | setting ⚙️ | `path alias` `이슈, PR 템플릿 생성` |
 | view 📱 | `매장 상품 찾기 - 인기` `매장 상품 찾기 - 검색` |
-| api �� | `GET - 상품 검색 (상품명, 품번, 브랜드)` `GET - 상품 정렬 (최신순, 가격 낮은 순, 가격 높은 순)` `GET - 지금 많이 찾는 상품 조회` |
+| api �� | `GET - 상품 검색 (상품명, 품번, 브랜드)`<br>`GET - 상품 정렬 (최신순, 가격 낮은 순, 가격 높은 순)`<br>`GET - 지금 많이 찾는 상품 조회` |
 
 ### 🪼 윤소은
 
@@ -56,7 +56,7 @@
 | --- | --- |
 | setting ⚙️ | `husky 설정` |
 | view 📱 | `홈` `매장 상품 찾기 - 재고` |
-| api 📡 | `GET - 상품별 매장 재고 기본 조회` `GET - 매장명으로 검색` |
+| api 📡 | `GET - 상품별 매장 재고 기본 조회`<br>`GET - 매장명으로 검색` |
 
 ### 🪽 김채은
 
@@ -64,7 +64,7 @@
 | --- | --- |
 | setting ⚙️ | `TanStackQuery세팅` `Eslint 설정` `Prettier 설정` `axios 세팅` |
 | view 📱 | `제품 상세페이지` |
-| api 📡 | `GET - 브랜드별 상품 조회` `GET - 상품 카테고리별 조회` |
+| api 📡 | `GET - 브랜드별 상품 조회`<br>`GET - 상품 카테고리별 조회` |
 
 ## 🛠️ 기술 스택
 
@@ -152,7 +152,7 @@
 
 ## 📝 코딩 컨벤션
 
-### 컴포넌트
+### 🧩 컴포넌트
 - 함수형 컴포넌트는 `rafce` 스니펫 사용, 파일명은 PascalCase
 - 리액트 컴포넌트만 PascalCase, 그 외는 camelCase
 - props 타입은 `~Props`로 명명, 컴포넌트 파일 내에서 선언
@@ -161,33 +161,33 @@
 - 컴포넌트 선언과 스타일드 컴포넌트 선언 사이 한 줄 띄우기
 - 주석은 설명하려는 대상 바로 위에 작성
 
-### 폴더/파일명
+### 📁 폴더/파일명
 - 폴더명, 파일명은 소문자, 복수형, 카멜케이스
 - 공통 컴포넌트는 `components/common`에, 페이지 전용 컴포넌트는 각 페이지 폴더에 위치
 
-### 타입
+### 🔖 타입
 - props 타입은 `~Props`, 공통 타입은 `types` 폴더에 선언
 - api response 타입명은 `OOOResponseTypes`
 - interface는 확장, type은 union/intersection에 사용
 
-### 변수/상수
+### 🔐 변수/상수
 - var 금지, const 우선 사용
 - 상수는 대문자 스네이크케이스 (`API_KEY`)
 - boolean 변수는 is/has 접두사 사용 (`isActive`, `hasEmail`)
 - 배열은 복수형, map 사용 시 key는 고유값
 
-### 함수
+### 🪄 함수
 - 함수명은 동사+명사, 이벤트 핸들러는 `handle` 접두사
 - 유틸 함수는 반환값 기준 네이밍, 공통은 `utils` 폴더에
 - 화살표 함수 우선 사용
 
-### 스타일
+### 🎨 스타일
 - 스타일 파일명은 `OOO.style.ts`로 통일
 - Styled-Component 네이밍: Wrapper/Layout/Container/Box 등 역할 명확히
 - 시맨틱 태그 적극 활용, 단위는 rem, border 등은 px
 - color, font는 theme 사용
 
-### 기타
+### 📌 기타
 - map 등 반복문 key는 index 대신 고유값
 - 불필요한 반복문 대신 filter, includes 등 적극 사용
 - 코드 스타일은 Prettier, ESLint로 통일
