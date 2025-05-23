@@ -67,6 +67,7 @@ export const Title = css`
 
 export const NavIcons = css`
   margin: 1.2rem 0.5rem 1.2rem 0.6rem;
+  cursor: pointer;
   width: 2.4rem;
 `;
 

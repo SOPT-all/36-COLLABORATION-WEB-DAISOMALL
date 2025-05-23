@@ -34,10 +34,12 @@ export const BasicText = css`
   position: relative;
   ${theme.fonts['heading-16B']};
   color: ${theme.colors['gray-01']};
+  cursor: pointer;
 `;
 
 export const SelectedText = css`
   ${theme.fonts['heading-16B']};
+  cursor: pointer;
   color: ${theme.colors.primary};
   position: relative;
 

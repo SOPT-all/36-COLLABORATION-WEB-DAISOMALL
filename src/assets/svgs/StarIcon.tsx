@@ -4,6 +4,9 @@ const SvgStarIcon = (props: SVGProps<SVGSVGElement>) => (
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 11 12"
+    width="100%"
+    height="100%"
+    style={{ transform: 'translateY(-10%)' }}
     {...props}
   >
     <path
