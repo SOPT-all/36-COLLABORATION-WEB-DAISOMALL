@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 export const StarRatingWrapper = css`
   display: flex;
   width: 9rem;
+  padding-bottom: 0.4rem;
 `;
 
 export const StarWrapper = css`
