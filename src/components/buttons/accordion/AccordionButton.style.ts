@@ -43,13 +43,17 @@ export const iconStyle = css`
   }
 `;
 
+export const contentWrapper = (isOpen: boolean) => css`
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  max-height: ${isOpen ? '1000px' : '0'};
+`;
+
 export const contentStyle = css`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 1.6rem;
-
-  padding: 1.6rem;
 
   background-color: ${theme.colors.white};
   color: ${theme.colors['gray-01']};

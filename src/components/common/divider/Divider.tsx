@@ -1,14 +1,21 @@
 import { css } from '@emotion/react';
 import theme from '@styles/theme';
 
-const dividerStyle = css`
-  width: 100%;
-  height: 1px;
-  background-color: ${theme.colors['gray-05']};
-  border: none;
-  margin: 0;
-`;
+interface DividerProps {
+  height?: string;
+  color?: string;
+}
 
-const Divider = () => <hr css={dividerStyle} />;
+const Divider = ({ height = '1px', color }: DividerProps) => {
+  const dividerStyle = css`
+    width: 100%;
+    height: ${height};
+    background-color: ${color || theme.colors['gray-05']};
+    border: none;
+    margin: 0;
+  `;
+
+  return <hr css={dividerStyle} />;
+};
 
 export default Divider;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { SmallArrowDownIcon, SmallArrowUpIcon } from '@assets/svgs';
 import Divider from '@components/common/divider/Divider';
 import * as S from './AccordionButton.style';
@@ -15,6 +15,7 @@ const AccordionButton = ({
   defaultOpen = false,
 }: AccordionButtonProps) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   // 컴포넌트 상태에 따라 렌더링할 아이콘 결정
   const ArrowIcon = isOpen ? SmallArrowUpIcon : SmallArrowDownIcon;
@@ -33,12 +34,18 @@ const AccordionButton = ({
         </span>
       </button>
 
-      {isOpen && (
-        <>
-          <Divider />
-          <div css={S.contentStyle}>{children}</div>
-        </>
-      )}
+      <div
+        css={S.contentWrapper(isOpen)}
+        ref={contentRef}
+        style={
+          isOpen
+            ? { maxHeight: contentRef.current?.scrollHeight }
+            : { maxHeight: 0 }
+        }
+      >
+        <Divider />
+        <div css={S.contentStyle}>{children}</div>
+      </div>
     </div>
   );
 };

@@ -7,7 +7,7 @@ interface TodayCardProps {
   profileImage: string;
   username: string;
   title: string;
-  views: number;
+  views: string;
 }
 
 const TodayCard = ({

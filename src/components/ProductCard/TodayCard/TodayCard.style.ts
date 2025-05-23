@@ -9,8 +9,7 @@ export const wrapper = css`
 `;
 
 export const mainImage = css`
-  width: 100%;
-  height: 100%;
+  height: 17rem;
   object-fit: cover;
 `;
 
