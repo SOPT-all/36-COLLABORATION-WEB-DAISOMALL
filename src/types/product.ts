@@ -11,6 +11,7 @@ export interface GetProductDetailResponseData {
   ratingAvg: string;
   reviewCount: string;
   brandName: string;
+  category: string;
   productImages: {
     main: ProductImageInfo[];
     detail: ProductImageInfo[];

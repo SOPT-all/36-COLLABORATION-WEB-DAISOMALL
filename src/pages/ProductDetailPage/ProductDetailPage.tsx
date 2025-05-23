@@ -59,36 +59,45 @@ const ProductDetailPage = () => {
   const reviewRef = useRef<HTMLDivElement>(null);
   const buyBarRef = useRef<HTMLDivElement>(null);
 
-  // API 호출
   useEffect(() => {
     const fetchData = async () => {
+      const BRAND_ID_MAP: Record<string, number> = {
+        VT: 1,
+        비즈: 2,
+        락앤락: 3,
+      };
+
+      const getBrandIdFromName = (brandName: string): number | undefined =>
+        BRAND_ID_MAP[brandName];
       try {
         setIsLoading(true);
-        const id = productId ? parseInt(productId) : 1; // ProductId가 없으면 기본값 1 사용
-        console.log('API 요청 - productId:', id);
+        const id = productId ? parseInt(productId) : 1;
 
-        // 상품 정보, 리뷰, 브랜드별 상품, 인기 상품, 카테고리별 상품을 병렬로 호출
+        const productResponse = await getProductDetail(id);
+        setProductData(productResponse);
+
+        const brandId = getBrandIdFromName(productResponse.brandName); // ← 여기!
+        const category = productResponse.category;
+
+        if (!brandId) {
+          console.error(
+            `브랜드 ID를 찾을 수 없습니다: ${productResponse.brandName}`,
+          );
+          return;
+        }
+
         const [
-          productResponse,
           reviewResponse,
           brandProductsResponse,
           popularProductsResponse,
           categoryProductsResponse,
         ] = await Promise.all([
-          getProductDetail(id),
-          getReviews(id, 0, 20), // 첫 번째 페이지, 20개씩
-          getBrandProducts(1, 0, 10), // BrandId는 1로 고정, 10개씩
-          getPopularProducts(), // 인기 상품 조회
-          getCategoryProducts('BEAUTY_HYGIENE', 0, 20), // 카테고리별 상품 조회
+          getReviews(id, 0, 20),
+          getBrandProducts(brandId, 0, 10),
+          getPopularProducts(),
+          getCategoryProducts(category, 0, 20),
         ]);
 
-        console.log('상품 API 응답:', productResponse);
-        console.log('리뷰 API 응답:', reviewResponse);
-        console.log('브랜드별 상품 API 응답:', brandProductsResponse);
-        console.log('인기 상품 API 응답:', popularProductsResponse);
-        console.log('카테고리별 상품 API 응답:', categoryProductsResponse);
-
-        setProductData(productResponse);
         setReviewData(reviewResponse);
         setBrandProductsData(brandProductsResponse);
         setPopularProductsData(popularProductsResponse);
