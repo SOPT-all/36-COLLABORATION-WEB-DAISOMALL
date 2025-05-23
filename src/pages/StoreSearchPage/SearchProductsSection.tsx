@@ -1,4 +1,3 @@
-// src/pages/StoreSearchPage/SearchProductsSection.tsx
 import { useState, useEffect } from 'react';
 import * as S from './SearchProductsSection.style';
 import SearchBar from '@components/SearchBar/SearchBar';
@@ -129,7 +128,7 @@ const SearchProductsSection = ({
                 name={product.productName}
                 price={product.price.toLocaleString()}
                 code={product.productCode}
-                showCartIcon={true}
+                showCartIcon={false}
               />
             </div>
           ))}
