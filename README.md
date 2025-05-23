@@ -1,5 +1,19 @@
 # 다이소몰 모바일웹 4조 🛒❤️
 
+<br/>
+
+<p align="center">
+  <img src="src/assets/pngs/daiso.png" alt="다이소 로고" width="300"/>
+</p>
+
+<br/>
+
+<p align="center">
+  <img src="src/assets/pngs/we.png" alt="우리 팀 사진" width="600"/>
+</p>
+
+<br/>
+
 ## 프로젝트 소개
 
 **다이소몰 모바일웹 4조**는 2030 여성 타겟의 합리적 소비와 오프라인-온라인 연계 경험을 극대화하기 위해
@@ -12,12 +26,16 @@
   - 재고/매장/배송 필터링  
   - 오프라인-온라인 연계 강화  
   - 하단바/탭 구조 개선
+ 
+<br/>
 
 ## 👥 팀원 및 역할 분담
 
-| <img src="https://github.com/maehwasoo.png" width="100" /> | <img src="https://github.com/shinjigu.png" width="100" /> | <img src="https://github.com/Dubabbi.png" width="100" /> | <img src="https://github.com/bongtta.png" width="100" /> |
+| 엄경호 | 신지수 | 윤소은 | 김채은 |
 | :---: | :---: | :---: | :---: |
-| **엄경호**<br>[@maehwasoo](https://github.com/maehwasoo) | **신지수**<br>[@shinjigu](https://github.com/shinjigu) | **윤소은**<br>[@Dubabbi](https://github.com/Dubabbi) | **김채은**<br>[@bongtta](https://github.com/bongtta) |
+| [@maehwasoo](https://github.com/maehwasoo) | [@shinjigu](https://github.com/shinjigu) | [@Dubabbi](https://github.com/Dubabbi) | [@bongtta](https://github.com/bongtta) |
+
+<br/>
 
 ## 역할 분담 및 구현 파트 소개
 
@@ -28,7 +46,7 @@
 | --- | --- |
 | setting ⚙️ | `svg 세팅` `스타일 커스텀 (theme, global)` `router 설정` |
 | view 📱 | `제품 상세페이지` |
-| api 📡 | `GET - 상품 상세 조회` `GET - 상품 리뷰 조회` |
+| api 📡 | `GET - 상품 상세 조회`<br>`GET - 상품 리뷰 조회` |
 
 ### 🌏 신지수
 
@@ -36,7 +54,7 @@
 | --- | --- |
 | setting ⚙️ | `path alias` `이슈, PR 템플릿 생성` |
 | view 📱 | `매장 상품 찾기 - 인기` `매장 상품 찾기 - 검색` |
-| api 📡 | `GET - 상품 검색 (상품명, 품번, 브랜드)` `GET - 상품 정렬 (최신순, 가격 낮은 순, 가격 높은 순)` `GET - 지금 많이 찾는 상품 조회` |
+| api 📡 | `GET - 상품 검색 (상품명, 품번, 브랜드)`<br>`GET - 상품 정렬 (최신순, 가격 낮은 순, 가격 높은 순)`<br>`GET - 지금 많이 찾는 상품 조회` |
 
 ### 🪼 윤소은
 
@@ -44,7 +62,7 @@
 | --- | --- |
 | setting ⚙️ | `husky 설정` |
 | view 📱 | `홈` `매장 상품 찾기 - 재고` |
-| api 📡 | `GET - 상품별 매장 재고 기본 조회` `GET - 매장명으로 검색` |
+| api 📡 | `GET - 상품별 매장 재고 기본 조회`<br>`GET - 매장명으로 검색` |
 
 ### 🪽 김채은
 
@@ -52,7 +70,9 @@
 | --- | --- |
 | setting ⚙️ | `TanStackQuery세팅` `Eslint 설정` `Prettier 설정` `axios 세팅` |
 | view 📱 | `제품 상세페이지` |
-| api 📡 | `GET - 브랜드별 상품 조회` `GET - 상품 카테고리별 조회` |
+| api 📡 | `GET - 브랜드별 상품 조회`<br>`GET - 상품 카테고리별 조회` |
+
+<br/>
 
 ## 🛠️ 기술 스택
 
@@ -62,6 +82,8 @@
 - **Axios** (API 통신)
 - **ESLint + Prettier** (코드 스타일)
 - **Vercel** (배포)
+
+<br/>
 
 ## 📁 폴더 구조
 
@@ -90,6 +112,8 @@
 |-- vite.config.ts
 |-- yarn.lock
 ```
+
+<br/>
 
 ## 🧑‍💻 컨벤션
 
@@ -137,6 +161,8 @@
 ## ✅ TO DO
 - [ ] 세부 작업
 ```
+
+<br/>
 
 ## 📝 코딩 컨벤션
 
