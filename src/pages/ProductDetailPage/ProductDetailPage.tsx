@@ -20,12 +20,13 @@ import Review from './components/Review/Review';
 import TodayDiscovery from './components/TodayDiscovery/TodayDiscovery';
 import Accordion from './components/Accordion/Accordion';
 import BuyBar from './components/BuyBar/BuyBar';
-import { getProductDetail } from '@apis/detail/product';
-import type { GetProductDetailResponseData } from '@app-types/product';
+import { getProductDetail, getReviews } from '@apis/detail/product';
+import type { GetProductDetailResponseData, GetReviewsResponseData } from '@app-types/product';
 
 const ProductDetailPage = () => {
   const { productId } = useParams<{ productId: string }>();
   const [productData, setProductData] = useState<GetProductDetailResponseData | null>(null);
+  const [reviewData, setReviewData] = useState<GetReviewsResponseData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   
   const [isImageExpanded, setIsImageExpanded] = useState(false);
@@ -34,16 +35,23 @@ const ProductDetailPage = () => {
 
   // API 호출
   useEffect(() => {
-    const fetchProductDetail = async () => {
+    const fetchData = async () => {
       try {
         setIsLoading(true);
         const id = productId ? parseInt(productId) : 1; // productId가 없으면 기본값 1 사용
         console.log('API 요청 - productId:', id);
         
-        const response = await getProductDetail(id);
-        console.log('API 응답:', response);
+        // 상품 정보와 리뷰를 병렬로 호출
+        const [productResponse, reviewResponse] = await Promise.all([
+          getProductDetail(id),
+          getReviews(id, 0, 20) // 첫 번째 페이지, 20개씩
+        ]);
         
-        setProductData(response);
+        console.log('상품 API 응답:', productResponse);
+        console.log('리뷰 API 응답:', reviewResponse);
+        
+        setProductData(productResponse);
+        setReviewData(reviewResponse);
       } catch (error) {
         console.error('API 호출 실패:', error);
       } finally {
@@ -51,7 +59,7 @@ const ProductDetailPage = () => {
       }
     };
 
-    fetchProductDetail();
+    fetchData();
   }, [productId]);
 
   const handleExpandImage = () => {
@@ -92,15 +100,20 @@ const ProductDetailPage = () => {
   // detail 이미지들 (11번 상세 이미지용)  
   const detailImages = productData?.productImages?.detail?.map(img => img.imageUrl).filter(Boolean) || [];
   
+  // 리뷰 이미지 수집 및 처리
+  const reviewImages = reviewData?.reviews?.flatMap(review => 
+    review.images?.map(img => img.imageUrl).filter(Boolean) || []
+  ) || [];
+  
   console.log('처리된 이미지 배열:', {
     'main 이미지들 (2번 캐러셀용)': mainImages,
     'main 이미지 개수': mainImages.length,
     'detail 이미지들 (11번 상세용)': detailImages,
-    'detail 이미지 개수': detailImages.length
+    'detail 이미지 개수': detailImages.length,
+    '리뷰 이미지들 (4번 캐러셀용)': reviewImages,
+    '리뷰 이미지 개수': reviewImages.length,
+    '전체 리뷰 개수': reviewData?.reviews?.length || 0
   });
-
-  // 리뷰 이미지도 API에서 가져올 때까지 빈 배열로 처리
-  const reviewImages: string[] = [];
 
   return (
     <div css={S.productDetailStyle}>
@@ -126,8 +139,12 @@ const ProductDetailPage = () => {
         reviewCount={productData?.reviewCount}
       />
 
-      {/* 4. 리뷰 캐러셀 */}
-      <ReviewCarousel imageUrls={reviewImages} onMoreClick={() => console.log('리뷰 더보기 클릭')} />
+      {/* 4. 리뷰 캐러셀 - API 리뷰 이미지들 사용 */}
+      <ReviewCarousel 
+        isLoading={isLoading}
+        imageUrls={reviewImages} 
+        onMoreClick={() => console.log('리뷰 더보기 클릭')} 
+      />
 
       <Divider />
 
