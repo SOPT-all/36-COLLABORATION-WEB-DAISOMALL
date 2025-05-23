@@ -26,11 +26,11 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   const settings = {
     dots: false,
     arrows: false,
-    infinite: true,
+    infinite: images.length > 1,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: autoplay && !!autoSlideInterval,
+    autoplay: autoplay && !!autoSlideInterval && images.length > 1,
     autoplaySpeed: autoSlideInterval,
     beforeChange: (_: number, nextIndex: number) => {
       setCurrentIndex(nextIndex);
@@ -51,12 +51,14 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
           </div>
         ))}
       </Slider>
-      <div css={IndicatorPositionStyle(bottomPadding)}>
-        <OrderIndicator
-          currentIndex={currentIndex}
-          totalItems={images.length}
-        />
-      </div>
+      {images.length > 1 && (
+        <div css={IndicatorPositionStyle(bottomPadding)}>
+          <OrderIndicator
+            currentIndex={currentIndex}
+            totalItems={images.length}
+          />
+        </div>
+      )}
     </div>
   );
 };

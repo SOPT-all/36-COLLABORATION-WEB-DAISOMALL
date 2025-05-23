@@ -80,11 +80,21 @@ const ProductDetailPage = () => {
 
   // API에서 받아온 데이터 또는 기본 더미 데이터
   const productTitle = productData?.productName || '다이소 베이직 노트북 파우치 15인치';
-  const mainImages = productData?.productImages?.main?.map(img => img.imageUrl) || [
+  
+  // API 이미지 배열 처리 개선
+  const apiImages = productData?.productImages?.main?.map(img => img.imageUrl).filter(Boolean) || [];
+  const mainImages = apiImages.length > 0 ? apiImages : [
     'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
     'https://images.unsplash.com/photo-1560769629-975ec94e6a86',
     'https://images.unsplash.com/photo-1549298916-b41d501d3772'
   ];
+  
+  console.log('이미지 배열 정보:', {
+    apiImages: apiImages,
+    apiImagesLength: apiImages.length,
+    finalMainImages: mainImages,
+    finalMainImagesLength: mainImages.length
+  });
 
   const reviewImages = [
     'https://images.unsplash.com/photo-1549298916-b41d501d3772',
