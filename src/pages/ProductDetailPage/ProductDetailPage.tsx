@@ -75,7 +75,7 @@ const ProductDetailPage = () => {
 
   // 로딩 중일 때 표시 (모든 Hook 호출 후)
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return;
   }
 
   // API에서 받아온 데이터 또는 기본 더미 데이터
