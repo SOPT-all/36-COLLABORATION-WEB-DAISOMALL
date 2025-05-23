@@ -33,7 +33,7 @@ const LocationCard = ({
   productId,
   isSoldOut = false,
   isFranchise = false,
-  isPickupAvailable = false,
+  isPickupAvailable,
 }: LocationCardProps) => {
   const [liked, setLiked] = useState(false);
   const navigate = useNavigate();
