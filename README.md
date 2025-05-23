@@ -3,13 +3,14 @@
 <br/>
 
 <p align="center">
-  <img src="src/assets/team_photo.png" alt="우리 팀 사진" width="600"/>
+  <img src="src/assets/pngs/daiso.png" alt="다이소 로고" width="300"/>
 </p>
 
 <br/>
-=======
-# 다이소몰 모바일웹 4조 🛒❤️
->>>>>>> 7572b2e0f7a0191049ea8c86040b1aebc409a24e
+
+<p align="center">
+  <img src="src/assets/pngs/we.png" alt="우리 팀 사진" width="600"/>
+</p>
 
 ## 프로젝트 소개
 
@@ -47,7 +48,7 @@
 | --- | --- |
 | setting ⚙️ | `path alias` `이슈, PR 템플릿 생성` |
 | view 📱 | `매장 상품 찾기 - 인기` `매장 상품 찾기 - 검색` |
-| api 📡 | `GET - 상품 검색 (상품명, 품번, 브랜드)` `GET - 상품 정렬 (최신순, 가격 낮은 순, 가격 높은 순)` `GET - 지금 많이 찾는 상품 조회` |
+| api �� | `GET - 상품 검색 (상품명, 품번, 브랜드)` `GET - 상품 정렬 (최신순, 가격 낮은 순, 가격 높은 순)` `GET - 지금 많이 찾는 상품 조회` |
 
 ### 🪼 윤소은
 
