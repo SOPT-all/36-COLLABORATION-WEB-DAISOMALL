@@ -320,20 +320,29 @@ const ProductDetailPage = () => {
       <Divider height="8px" color={theme.colors['gray-06']} />
 
       {/* 14. 관련 상품 추천 */}
-      {false && ( // 추후 추천 상품 API 연결시 조건 변경
+      {brandProductsData?.products && brandProductsData.products.length > 3 && (
         <div css={S.recommendedProductsStyle}>
           <SectionTitle 
             title1="이런 기초스킨케어 상품은 어때요?"
             onClickAll={() => console.log('이런 기초스킨케어 상품은 어때요? 전체보기 클릭')}
           />
-          <ProductCardVertical 
-            id={999}
-            size="96"
-            name="다이소 LED 무드등"
-            totalPrice="5,000"
-            imageUrl="https://images.unsplash.com/photo-1543508282-6319a3e2621f"
-            tags={[{ label: '인기', bg: theme.colors['primary'], color: theme.colors['gray-05'] }]}
-          />
+          <div css={S.productsHorizontalStyle}>
+            {brandProductsData.products.slice(3, 6).map((product) => (
+              <ProductCardVertical 
+                key={product.productId}
+                id={product.productId}
+                size="96"
+                name={product.productName}
+                totalPrice={product.price.toLocaleString()}
+                imageUrl="https://images.unsplash.com/photo-1543508282-6319a3e2621f" // 임시 이미지
+                tags={product.tags.map(tag => ({ 
+                  label: tag, 
+                  bg: theme.colors['primary'], 
+                  color: theme.colors['gray-05'] 
+                }))}
+              />
+            ))}
+          </div>
         </div>
       )}
 
