@@ -1,6 +1,6 @@
 import { END_POINT } from '@utils/constants/api/api';
 import { instance } from '@apis/instance';
-import type { GetProductDetailResponseData, GetReviewsResponseData, GetBrandProductsResponseData, GetPopularProductsResponseData } from '@app-types/product';
+import type { GetProductDetailResponseData, GetReviewsResponseData, GetBrandProductsResponseData, GetPopularProductsResponseData, GetCategoryProductsResponseData } from '@app-types/product';
 import type { ApiResponse } from '@app-types/apiResponseType';
 
 export const getProductDetail = async (
@@ -50,6 +50,24 @@ export const getBrandProducts = async (
 export const getPopularProducts = async (): Promise<GetPopularProductsResponseData> => {
   const response = await instance.get<ApiResponse<GetPopularProductsResponseData>>(
     END_POINT.GET_PRODUCTS_POPULAR
+  );
+  return response.data.data;
+};
+
+export const getCategoryProducts = async (
+  category: string = 'BEAUTY_HYGIENE',
+  pageNumber: number = 0,
+  pageSize: number = 20,
+): Promise<GetCategoryProductsResponseData> => {
+  const response = await instance.get<ApiResponse<GetCategoryProductsResponseData>>(
+    END_POINT.GET_PRODUCTS_CATEGORY,
+    {
+      params: {
+        category,
+        pageNumber,
+        pageSize,
+      },
+    }
   );
   return response.data.data;
 };

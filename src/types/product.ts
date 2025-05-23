@@ -65,9 +65,25 @@ export interface PopularProduct {
   productName: string;
   productCode: string;
   price: number;
+  mainImage: string;
 }
 
 export interface GetPopularProductsResponseData {
   pages: PopularProduct[][];
   total: number;
+}
+
+// 카테고리별 상품 조회 API 관련 타입들
+export interface CategoryProduct {
+  productId: number;
+  productName: string;
+  mainImage: string;
+  price: number;
+  category: string;
+  tags: string[];
+}
+
+export interface GetCategoryProductsResponseData {
+  products: CategoryProduct[];
+  pageable: Pageable;
 }
