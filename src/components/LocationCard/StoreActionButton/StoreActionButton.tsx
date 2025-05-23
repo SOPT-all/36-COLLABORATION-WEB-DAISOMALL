@@ -10,7 +10,11 @@ const StoreActionButton = ({
   isSoldOut = false,
   onClick,
 }: StoreActionButtonProps) => (
-  <button onClick={onClick} css={S.actionButton}>
+  <button
+    onClick={!isSoldOut ? onClick : undefined}
+    disabled={isSoldOut}
+    css={S.actionButton}
+  >
     <span>{isSoldOut ? '재입고 알림' : '매장 픽업하기'}</span>
     {!isSoldOut && <ArrowRightIcon width={12} height={12} />}
   </button>
