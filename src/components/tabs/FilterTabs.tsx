@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as S from './FilterTabs.style';
 import { css } from '@emotion/react';
 import { XIcon } from '@assets/svgs';
@@ -16,10 +16,20 @@ interface FilterOptions {
 
 interface FilterTabsProps {
   onChange?: (selectedOptions: FilterOption[]) => void;
+  selectedTab?: string | null;
 }
 
-const FilterTabs = ({ onChange }: FilterTabsProps) => {
+const FilterTabs = ({ onChange, selectedTab }: FilterTabsProps) => {
   const [selectedOptions, setSelectedOptions] = useState<FilterOption[]>([]);
+
+  // selectedTab이 변경되면 selectedOptions 업데이트
+  useEffect(() => {
+    if (selectedTab) {
+      setSelectedOptions([selectedTab as FilterOption]);
+    } else {
+      setSelectedOptions([]);
+    }
+  }, [selectedTab]);
 
   const filterOptions: FilterOptions[] = [
     { key: 'like-store', label: '관심 매장' },
