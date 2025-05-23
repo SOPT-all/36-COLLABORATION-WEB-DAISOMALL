@@ -8,29 +8,56 @@ import theme from '@styles/theme';
 import { SmallArrowDownIcon } from '@assets/svgs';
 import Comment from './Comment';
 import NavigationButton from '@components/buttons/navigationButton/NavigationButton';
+import type { GetReviewsResponseData, GetProductDetailResponseData } from '@app-types/product';
 
-const Review = () => {
-  const averageRating = 4.8;
+interface ReviewProps {
+  reviewData?: GetReviewsResponseData | null;
+  productData?: GetProductDetailResponseData | null;
+  reviewImages?: string[];
+}
 
-  // ✅ 테스트용 샘플 이미지 8개
-  const photos = Array.from(
-    { length: 8 },
-    (_, i) =>
-      `https://cdn.daisomall.co.kr/file/PD/20231208/mlR3AhMQIUI2AnD9HcML1014695_00_06mlR3AhMQIUI2AnD9HcML.jpg/dims/resize/280/quality/90/format/avif/optimize${i + 1}`,
-  );
+const Review = ({ reviewData, productData, reviewImages = [] }: ReviewProps) => {
+  // API 데이터에서 평균 별점과 리뷰 수 가져오기
+  const averageRating = productData?.ratingAvg ? parseFloat(productData.ratingAvg) : 0;
+  const reviewCount = productData?.reviewCount ? parseInt(productData.reviewCount) : 0;
+  
+  // 실제 리뷰 데이터 또는 빈 배열
+  const reviews = reviewData?.reviews || [];
+
+  console.log('Review 컴포넌트 데이터:', {
+    averageRating,
+    reviewCount,
+    reviewsLength: reviews.length,
+    reviewImagesLength: reviewImages.length
+  });
+
+  // 전체 리뷰 이미지 수집 과정 상세 로그
+  console.log('=== 전체 리뷰 이미지 수집 분석 ===');
+  reviews.forEach((review, index) => {
+    console.log(`리뷰 ${index + 1}:`, {
+      reviewId: review.reviewId,
+      nickname: review.nickname,
+      hasProfileImage: !!review.profileImageUrl,
+      profileImageUrl: review.profileImageUrl,
+      reviewImagesCount: review.images?.length || 0,
+      reviewImageUrls: review.images?.map(img => img.imageUrl) || []
+    });
+  });
+  console.log('PhotoScrollList에 전달될 전체 이미지들:', reviewImages);
+  console.log('====================================');
 
   return (
     <div css={S.Wrapper}>
       <div css={S.UpperContainer}>
         <SectionTitle
           title1="리뷰"
-          title2="11747"
+          title2={reviewCount.toString()}
           title2Color="#D70011"
           onClickAll={() => console.log('전체보기 클릭')}
         />
 
         <div css={S.RatingContainer}>
-          <p css={S.averageRating}>{averageRating}</p>
+          <p css={S.averageRating}>{averageRating.toFixed(1)}</p>
           <RenderStars score={averageRating} />
         </div>
 
@@ -49,7 +76,11 @@ const Review = () => {
             onClickAll={() => console.log('전체보기 클릭')}
           />
         </div>
-        <PhotoScrollList images={photos} />
+        <PhotoScrollList 
+          isLoading={false}
+          imageUrls={reviewImages}
+          onMoreClick={() => console.log('사진&동영상 더보기 클릭')}
+        />
       </div>
 
       <Divider height="8px" color={theme.colors['gray-06']} />
@@ -66,43 +97,50 @@ const Review = () => {
           </div>
         </div>
 
-        <Comment
-          nickname="lhe******"
-          profileImageUrl="https://example.com/profile.jpg"
-          rating={5}
-          firstKeyword="촉촉해요"
-          secondKeyword="순해요"
-          thirdKeyword="마음에 들어요"
-          content="매일 100을 쓰고 한 번씩 300, 500 번갈아가면서 씁니다~ 흡수 도와주는 홈케어 기기보다 100쓰는게 더 나아요!ㅎ 시간도 더 짧고 효과도 더 좋은 듯해서 손이 너무 잘갑니다~^^"
-          likes={1}
-        />
-        <Divider />
-        <Comment
-          nickname="ros******"
-          profileImageUrl="https://example.com/profile.jpg"
-          rating={4}
-          firstKeyword="촉촉해요"
-          secondKeyword="자극이 있어요"
-          thirdKeyword="마음에 들어요"
-          content="엄총 유명한 리들샷 여러분 100도 엄청 자극있더라고요! 초보자 + 예민한 사람들은 50부터 추천해요 아직까지 효과는 모르겠어요 꾸준히 써야지 ㅎ"
-          likes={4}
-        />
-        <Divider />
-        <Comment
-          nickname="kjh******"
-          profileImageUrl="https://example.com/profile.jpg"
-          rating={5}
-          firstKeyword="보통이에요"
-          secondKeyword="보통이에요"
-          thirdKeyword="마음에 들어요"
-          content="잘 받았습니다. 감사합니다."
-          likes={0}
-        />
-        <NavigationButton
-          text="고객리뷰 전체보기"
-          count={11747}
-          to="/product-detail-bottom"
-        />
+        {/* 실제 API 리뷰 데이터로 렌더링 */}
+        {reviews.length > 0 ? (
+          reviews.slice(0, 3).map((review, index) => {
+            // 각 리뷰의 이미지 정보 콘솔 출력
+            console.log(`=== 리뷰 ${index + 1} (ID: ${review.reviewId}) ===`);
+            console.log('닉네임:', review.nickname);
+            console.log('프로필 사진 URL:', review.profileImageUrl);
+            console.log('별점:', review.rating);
+            console.log('내용:', review.content);
+            console.log('리뷰 이미지들:', review.images);
+            console.log('리뷰 이미지 URL들:', review.images?.map(img => img.imageUrl) || []);
+            console.log('리뷰 이미지 개수:', review.images?.length || 0);
+            console.log('----------------------------------');
+            
+            return (
+              <div key={review.reviewId}>
+                <Comment
+                  nickname={review.nickname}
+                  profileImageUrl={review.profileImageUrl}
+                  rating={review.rating}
+                  firstKeyword="촉촉해요" // 키워드는 추후 API에서 제공될 때 업데이트
+                  secondKeyword="순해요"
+                  thirdKeyword="마음에 들어요"
+                  content={review.content}
+                  likes={0} // 좋아요 수는 추후 API에서 제공될 때 업데이트
+                />
+                {index < reviews.slice(0, 3).length - 1 && <Divider />}
+              </div>
+            );
+          })
+        ) : (
+          <div>리뷰가 없습니다.</div>
+        )}
+        
+        {reviews.length > 0 && (
+          <>
+            <Divider />
+            <NavigationButton
+              text="고객리뷰 전체보기"
+              count={reviewCount}
+              to="/product-detail-bottom"
+            />
+          </>
+        )}
       </div>
     </div>
   );

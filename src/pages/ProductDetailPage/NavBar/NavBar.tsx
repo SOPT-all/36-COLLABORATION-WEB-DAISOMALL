@@ -8,14 +8,19 @@ interface TabInfo {
   count?: number;
 }
 
-const NavBar = () => {
+interface NavBarProps {
+  onTabClick?: (tabId: number) => void;
+  reviewCount?: number;
+}
+
+const NavBar = ({ onTabClick, reviewCount }: NavBarProps) => {
   const [activeTab, setActiveTab] = useState(1);
   const [barPosition, setBarPosition] = useState(0);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   const tabs: TabInfo[] = [
     { id: 1, title: '상품설명' },
-    { id: 2, title: '리뷰', count: 11747 },
+    { id: 2, title: '리뷰', count: reviewCount || 0 },
     { id: 3, title: '상품정보' }
   ];
 
@@ -33,6 +38,7 @@ const NavBar = () => {
 
   const handleTabClick = (tabId: number) => {
     setActiveTab(tabId);
+    onTabClick?.(tabId);
   };
 
   return (

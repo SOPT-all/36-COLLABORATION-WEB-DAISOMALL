@@ -10,6 +10,7 @@ interface ImageCarouselProps {
   bottomPadding?: string;
   autoSlideInterval?: number;
   autoplay?: boolean;
+  height?: string;
 }
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({
@@ -17,6 +18,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   bottomPadding = '1.1rem',
   autoSlideInterval = 5000,
   autoplay = true,
+  height,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -24,37 +26,39 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   const settings = {
     dots: false,
     arrows: false,
-    infinite: true,
+    infinite: images.length > 1,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: autoplay && !!autoSlideInterval,
+    autoplay: autoplay && !!autoSlideInterval && images.length > 1,
     autoplaySpeed: autoSlideInterval,
     beforeChange: (_: number, nextIndex: number) => {
       setCurrentIndex(nextIndex);
     },
-    adaptiveHeight: true, // 이미지 높이에 따라 슬라이더 높이 조절
+    adaptiveHeight: !height, // height prop이 있으면 adaptiveHeight를 사용하지 않음
   };
 
   return (
-    <div css={CarouselContainer}>
+    <div css={CarouselContainer(height)}>
       <Slider {...settings}>
         {images.map((image, index) => (
           <div key={index}>
             <img
               src={image}
               alt={`Carousel Image ${index + 1}`}
-              css={CarouselImage}
+              css={CarouselImage(height)}
             />
           </div>
         ))}
       </Slider>
-      <div css={IndicatorPositionStyle(bottomPadding)}>
-        <OrderIndicator
-          currentIndex={currentIndex}
-          totalItems={images.length}
-        />
-      </div>
+      {images.length > 1 && (
+        <div css={IndicatorPositionStyle(bottomPadding)}>
+          <OrderIndicator
+            currentIndex={currentIndex}
+            totalItems={images.length}
+          />
+        </div>
+      )}
     </div>
   );
 };

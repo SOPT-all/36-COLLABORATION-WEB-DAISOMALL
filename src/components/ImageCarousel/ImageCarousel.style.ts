@@ -1,20 +1,23 @@
 import { css } from '@emotion/react';
 
-export const CarouselContainer = css`
+export const CarouselContainer = (height?: string) => css`
   position: relative;
   width: 100%;
   overflow: hidden;
+  height: ${height || 'auto'};
 
   .slick-slider {
     width: 100%;
+    height: ${height || 'auto'};
   }
 
   .slick-track {
     display: flex;
+    height: ${height || 'auto'};
   }
 
   .slick-slide {
-    height: auto;
+    height: ${height || 'auto'};
   }
 
   .slick-slide > div {
@@ -23,9 +26,9 @@ export const CarouselContainer = css`
   }
 `;
 
-export const CarouselImage = css`
+export const CarouselImage = (height?: string) => css`
   width: 100%;
-  height: auto;
+  height: ${height || 'auto'};
   display: block;
-  object-fit: cover;
+  object-fit: ${height ? 'cover' : 'contain'};
 `;

@@ -19,7 +19,14 @@ const GlobalStyle = css`
     background-color: ${theme.colors.white};
     font-size: 62.5%;
     overflow-x: hidden;
-    
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+-ms-overflow-style: none;
+scrollbar-width: none;
+    @  
   }
 
   #root {

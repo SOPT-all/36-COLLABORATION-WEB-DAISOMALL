@@ -67,7 +67,7 @@ const BrandInfo = ({
 
   return (
     <section css={S.container}>
-      {isLoading || !isImageLoaded ? renderSkeleton() : renderContent()}
+      {renderContent()}
     </section>
   );
 };
