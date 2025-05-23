@@ -31,7 +31,7 @@ const BottomNav = () => {
         <p css={S.Caption}>카테고리</p>
       </div>
 
-      <div css={S.Container} onClick={() => navigate('/') }>
+      <div css={S.Container} onClick={() => navigate('/')}>
         {selectedTab === 'home' ? (
           <HomeIconActive css={S.HomeIcon} />
         ) : (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as S from './SearchResultTitle.style';
 import SmallArrowDownIcon from '@assets/svgs/SmallArrowDownIcon';
 import type { SortOptionType } from '@app-types/apiResponseType';

@@ -3,7 +3,11 @@ import * as S from './FilterTabs.style';
 import { css } from '@emotion/react';
 import { XIcon } from '@assets/svgs';
 
-type FilterOption = 'like-store' | 'pickup-able' | 'no-soldout' | 'no-store';
+export type FilterOption =
+  | 'like-store'
+  | 'pickup-able'
+  | 'no-soldout'
+  | 'no-store';
 
 interface FilterOptions {
   key: FilterOption;

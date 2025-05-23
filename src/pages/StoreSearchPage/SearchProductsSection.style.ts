@@ -1,10 +1,9 @@
 import { css } from '@emotion/react';
-import theme from '@styles/theme';
 
 export const SearchWrapper = css`
   display: flex;
   width: 37.5rem;
-  max-width: 100vw;
+  width: 100%;
   margin: 0 auto;
   padding: 1.6rem;
   flex-direction: column;
@@ -42,7 +41,7 @@ export const ProductCardWrapper = css`
   align-items: center;
   gap: 1.6rem;
   border-radius: 0.8rem;
-  border: 1px solid var(--gray-05, #EBE9EE);
+  border: 1px solid var(--gray-05, #ebe9ee);
   background: #fff;
   box-sizing: border-box;
 
@@ -59,7 +58,7 @@ export const LoadingContainer = css`
   width: 100%;
   height: 10rem;
   font-size: 1.6rem;
-  color: var(--gray-03, #9E9E9E);
+  color: var(--gray-03, #9e9e9e);
 `;
 
 export const ErrorContainer = css`
@@ -69,7 +68,7 @@ export const ErrorContainer = css`
   width: 100%;
   height: 10rem;
   font-size: 1.6rem;
-  color: var(--gray-03, #9E9E9E);
+  color: var(--gray-03, #9e9e9e);
 `;
 
 export const SectionTitleRow = css`

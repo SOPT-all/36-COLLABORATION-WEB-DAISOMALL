@@ -5,19 +5,27 @@ import Pagination from '@components/pagination/Pagination';
 import { useSwipeNavigation } from '@hooks/useSwipeNavigation';
 import { usePopularProducts } from '@hooks/queries/usePopularProducts';
 import { usePaginationWithPreload } from '@hooks/usePaginationWithPreload';
-import { LoadingState, ErrorState, EmptyState } from '@components/storeSearch/StoreSearchStates';
+import {
+  LoadingState,
+  ErrorState,
+  EmptyState,
+} from '@components/storeSearch/StoreSearchStates';
 
 const PAGE_SIZE = 5;
 
 interface PopularProductsSectionProps {
   onSearch?: (keyword: string) => void;
+  onProductSelect?: (productId: number) => void;
 }
 
-const PopularProductsSection = ({ onSearch }: PopularProductsSectionProps) => {
+const PopularProductsSection = ({
+  onSearch,
+  onProductSelect,
+}: PopularProductsSectionProps) => {
   const { data, isLoading, error } = usePopularProducts();
-  
+
   const allProducts = data?.pages ? data.pages.flat() : [];
-  
+
   const {
     currentPage,
     setCurrentPage,
@@ -29,7 +37,7 @@ const PopularProductsSection = ({ onSearch }: PopularProductsSectionProps) => {
     PAGE_SIZE,
     (product) => product.mainImage,
     data,
-    useSwipeNavigation
+    useSwipeNavigation,
   );
 
   const handleSearch = (keyword: string) => {
@@ -48,10 +56,7 @@ const PopularProductsSection = ({ onSearch }: PopularProductsSectionProps) => {
 
   return (
     <div css={S.PopularWrapper} {...swipeHandlers}>
-      <SearchBar 
-        placeholder="상품명, 품번, 브랜드" 
-        onSearch={handleSearch}
-      />
+      <SearchBar placeholder="상품명, 품번, 브랜드" onSearch={handleSearch} />
       <div css={S.ResultWrapper}>
         <h2 css={S.Title}>지금 많이 찾는 상품</h2>
         {pagedProducts.map((product, idx) => (
@@ -63,6 +68,7 @@ const PopularProductsSection = ({ onSearch }: PopularProductsSectionProps) => {
               price={product.price.toLocaleString()}
               code={product.productCode}
               showCartIcon={false}
+              onClick={() => onProductSelect?.(product.productId)}
             />
           </div>
         ))}

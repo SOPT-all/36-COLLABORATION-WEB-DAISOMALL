@@ -8,10 +8,15 @@ import {
 interface OrderIndicatorProps {
   currentIndex: number;
   totalItems: number;
+  isHome?: boolean;
 }
 
-const OrderIndicator = ({ currentIndex, totalItems }: OrderIndicatorProps) => (
-  <div css={IndicatorContainer}>
+const OrderIndicator = ({
+  currentIndex,
+  totalItems,
+  isHome = false,
+}: OrderIndicatorProps) => (
+  <div css={IndicatorContainer(isHome)}>
     <div css={IndicatorItemStyle(true)}>{currentIndex + 1}</div>
     <div css={Divider}>|</div>
     <div css={IndicatorItemStyle(false)}>{totalItems}</div>

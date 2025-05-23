@@ -12,7 +12,6 @@ export const rankingWrapper = (hasCode?: boolean) => css`
   justify-content: ${hasCode ? 'flex-start' : 'space-between'};
   width: 100%;
   height: 100%;
-  justify-content: space-between;
   gap: 1.6rem;
 `;
 
@@ -21,12 +20,13 @@ export const rankingContent = (hasCode?: boolean) => css`
   gap: ${hasCode ? '1.6rem' : '1.2rem'};
   flex: 1;
   min-width: 0;
-  width: auto;
-  height: 100%;
+  width: 100%;
+  align-items: flex-start;
 `;
 
 export const rankingNumber = css`
   position: relative;
+  width: 1.1rem;
   ${theme.fonts['number-18R']}
   color: ${theme.colors['gray-01']};
   width: 1.1rem;

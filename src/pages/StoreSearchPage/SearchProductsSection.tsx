@@ -8,9 +8,6 @@ import SearchEmptyResult from '@components/searchEmptyResult/SearchEmptyResult';
 import { useSearchProducts } from '@hooks/queries/useSearchProducts';
 import type { SearchProductsResponseData, SortOptionType } from '@app-types/apiResponseType';
 
-// 정렬 옵션 타입을 SortOptionType으로 통일
-const SORT_OPTIONS: SortOptionType[] = ['최신순', '가격 낮은 순', '가격 높은 순'];
-
 type SortOption = SortOptionType;
 
 interface SearchProductsSectionProps {

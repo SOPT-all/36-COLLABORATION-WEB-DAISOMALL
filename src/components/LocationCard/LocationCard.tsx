@@ -64,7 +64,7 @@ const LocationCard = ({
           <div css={S.tagRow}>
             <div css={S.tagItem}>
               <LocationTag
-                label={`${floor}`}
+                label={`${floor}F`}
                 color={isSoldOut ? 'gray' : 'red'}
               />
             </div>
@@ -73,7 +73,7 @@ const LocationCard = ({
 
             <div css={S.tagItem}>
               <LocationTag
-                label={`${stand}`}
+                label={`${stand}번`}
                 color={isSoldOut ? 'gray' : 'red'}
               />
               <span css={isSoldOut ? S.standTextGray : S.standText}>매대</span>

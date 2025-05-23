@@ -31,6 +31,7 @@ export const ProductRow = css`
   align-items: flex-start;
   gap: 0.8rem;
   align-self: stretch;
+  cursor: pointer;
   width: 100%;
 `;
 
