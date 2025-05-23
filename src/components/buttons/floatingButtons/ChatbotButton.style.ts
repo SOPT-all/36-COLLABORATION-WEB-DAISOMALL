@@ -17,7 +17,7 @@ export const buttonStyle = css`
 
   border-radius: 20px;
   background-color: ${theme.colors['red-02']};
-  box-shadow: ${theme.shadows.button};
+  box-shadow: ${theme.shadows.floatingButton};
   border: none;
 
   cursor: pointer;

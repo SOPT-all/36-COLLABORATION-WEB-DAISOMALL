@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import theme from '@styles/theme';
 
 export const ProductInfoWrapper = css`
   width: 100%;

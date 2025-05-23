@@ -9,7 +9,7 @@ import {
   LoadingState,
   ErrorState,
   EmptyState,
-} from '@components/storeSearch/StoreSearchStates';
+} from './components/storeSearch/StoreSearchStates';
 
 const PAGE_SIZE = 5;
 
