@@ -316,11 +316,11 @@ const ProductDetailPage = () => {
             {brandProductsData.products.slice(0, 5).map((product, index) => {
               // 다양한 임시 이미지 URL 배열
               const tempImages = [
-                "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb",
-                "https://images.unsplash.com/photo-1599751449128-eb7249c3d6b1",
-                "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6",
-                "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab12",
-                "https://images.unsplash.com/photo-1598662957563-ee4965d4d72c"
+                "/brand1.png",
+                "/brand2.png",
+                "/brand3.png",
+                "/brand4.png",
+                "/brand5.png"
               ];
               
               return (
