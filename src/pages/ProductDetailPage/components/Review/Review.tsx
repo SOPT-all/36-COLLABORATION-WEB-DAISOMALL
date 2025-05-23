@@ -8,7 +8,10 @@ import theme from '@styles/theme';
 import { SmallArrowDownIcon } from '@assets/svgs';
 import Comment from './Comment';
 import NavigationButton from '@components/buttons/navigationButton/NavigationButton';
-import type { GetReviewsResponseData, GetProductDetailResponseData } from '@app-types/product';
+import type {
+  GetReviewsResponseData,
+  GetProductDetailResponseData,
+} from '@app-types/product';
 
 interface ReviewProps {
   reviewData?: GetReviewsResponseData | null;
@@ -16,11 +19,19 @@ interface ReviewProps {
   reviewImages?: string[];
 }
 
-const Review = ({ reviewData, productData, reviewImages = [] }: ReviewProps) => {
+const Review = ({
+  reviewData,
+  productData,
+  reviewImages = [],
+}: ReviewProps) => {
   // API 데이터에서 평균 별점과 리뷰 수 가져오기
-  const averageRating = productData?.ratingAvg ? parseFloat(productData.ratingAvg) : 0;
-  const reviewCount = productData?.reviewCount ? parseInt(productData.reviewCount) : 0;
-  
+  const averageRating = productData?.ratingAvg
+    ? parseFloat(productData.ratingAvg)
+    : 0;
+  const reviewCount = productData?.reviewCount
+    ? parseInt(productData.reviewCount)
+    : 0;
+
   // 실제 리뷰 데이터 또는 빈 배열
   const reviews = reviewData?.reviews || [];
 
@@ -28,7 +39,7 @@ const Review = ({ reviewData, productData, reviewImages = [] }: ReviewProps) => 
     averageRating,
     reviewCount,
     reviewsLength: reviews.length,
-    reviewImagesLength: reviewImages.length
+    reviewImagesLength: reviewImages.length,
   });
 
   // 전체 리뷰 이미지 수집 과정 상세 로그
@@ -40,7 +51,7 @@ const Review = ({ reviewData, productData, reviewImages = [] }: ReviewProps) => 
       hasProfileImage: !!review.profileImageUrl,
       profileImageUrl: review.profileImageUrl,
       reviewImagesCount: review.images?.length || 0,
-      reviewImageUrls: review.images?.map(img => img.imageUrl) || []
+      reviewImageUrls: review.images?.map((img) => img.imageUrl) || [],
     });
   });
   console.log('PhotoScrollList에 전달될 전체 이미지들:', reviewImages);
@@ -76,7 +87,7 @@ const Review = ({ reviewData, productData, reviewImages = [] }: ReviewProps) => 
             onClickAll={() => console.log('전체보기 클릭')}
           />
         </div>
-        <PhotoScrollList 
+        <PhotoScrollList
           isLoading={false}
           imageUrls={reviewImages}
           onMoreClick={() => console.log('사진&동영상 더보기 클릭')}
@@ -107,10 +118,13 @@ const Review = ({ reviewData, productData, reviewImages = [] }: ReviewProps) => 
             console.log('별점:', review.rating);
             console.log('내용:', review.content);
             console.log('리뷰 이미지들:', review.images);
-            console.log('리뷰 이미지 URL들:', review.images?.map(img => img.imageUrl) || []);
+            console.log(
+              '리뷰 이미지 URL들:',
+              review.images?.map((img) => img.imageUrl) || [],
+            );
             console.log('리뷰 이미지 개수:', review.images?.length || 0);
             console.log('----------------------------------');
-            
+
             return (
               <div key={review.reviewId}>
                 <Comment
@@ -121,6 +135,7 @@ const Review = ({ reviewData, productData, reviewImages = [] }: ReviewProps) => 
                   secondKeyword="순해요"
                   thirdKeyword="마음에 들어요"
                   content={review.content}
+                  imageUrls={review.images?.map((img) => img.imageUrl) || []}
                   likes={0} // 좋아요 수는 추후 API에서 제공될 때 업데이트
                 />
                 {index < reviews.slice(0, 3).length - 1 && <Divider />}
@@ -130,7 +145,7 @@ const Review = ({ reviewData, productData, reviewImages = [] }: ReviewProps) => 
         ) : (
           <div>리뷰가 없습니다.</div>
         )}
-        
+
         {reviews.length > 0 && (
           <>
             <Divider />
