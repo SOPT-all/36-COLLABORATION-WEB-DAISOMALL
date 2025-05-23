@@ -31,6 +31,21 @@ const Review = ({ reviewData, productData, reviewImages = [] }: ReviewProps) => 
     reviewImagesLength: reviewImages.length
   });
 
+  // 전체 리뷰 이미지 수집 과정 상세 로그
+  console.log('=== 전체 리뷰 이미지 수집 분석 ===');
+  reviews.forEach((review, index) => {
+    console.log(`리뷰 ${index + 1}:`, {
+      reviewId: review.reviewId,
+      nickname: review.nickname,
+      hasProfileImage: !!review.profileImageUrl,
+      profileImageUrl: review.profileImageUrl,
+      reviewImagesCount: review.images?.length || 0,
+      reviewImageUrls: review.images?.map(img => img.imageUrl) || []
+    });
+  });
+  console.log('PhotoScrollList에 전달될 전체 이미지들:', reviewImages);
+  console.log('====================================');
+
   return (
     <div css={S.Wrapper}>
       <div css={S.UpperContainer}>
@@ -80,21 +95,34 @@ const Review = ({ reviewData, productData, reviewImages = [] }: ReviewProps) => 
 
         {/* 실제 API 리뷰 데이터로 렌더링 */}
         {reviews.length > 0 ? (
-          reviews.slice(0, 3).map((review, index) => (
-            <div key={review.reviewId}>
-              <Comment
-                nickname={review.nickname}
-                profileImageUrl={review.profileImageUrl}
-                rating={review.rating}
-                firstKeyword="촉촉해요" // 키워드는 추후 API에서 제공될 때 업데이트
-                secondKeyword="순해요"
-                thirdKeyword="마음에 들어요"
-                content={review.content}
-                likes={0} // 좋아요 수는 추후 API에서 제공될 때 업데이트
-              />
-              {index < reviews.slice(0, 3).length - 1 && <Divider />}
-            </div>
-          ))
+          reviews.slice(0, 3).map((review, index) => {
+            // 각 리뷰의 이미지 정보 콘솔 출력
+            console.log(`=== 리뷰 ${index + 1} (ID: ${review.reviewId}) ===`);
+            console.log('닉네임:', review.nickname);
+            console.log('프로필 사진 URL:', review.profileImageUrl);
+            console.log('별점:', review.rating);
+            console.log('내용:', review.content);
+            console.log('리뷰 이미지들:', review.images);
+            console.log('리뷰 이미지 URL들:', review.images?.map(img => img.imageUrl) || []);
+            console.log('리뷰 이미지 개수:', review.images?.length || 0);
+            console.log('----------------------------------');
+            
+            return (
+              <div key={review.reviewId}>
+                <Comment
+                  nickname={review.nickname}
+                  profileImageUrl={review.profileImageUrl}
+                  rating={review.rating}
+                  firstKeyword="촉촉해요" // 키워드는 추후 API에서 제공될 때 업데이트
+                  secondKeyword="순해요"
+                  thirdKeyword="마음에 들어요"
+                  content={review.content}
+                  likes={0} // 좋아요 수는 추후 API에서 제공될 때 업데이트
+                />
+                {index < reviews.slice(0, 3).length - 1 && <Divider />}
+              </div>
+            );
+          })
         ) : (
           <div>리뷰가 없습니다.</div>
         )}
