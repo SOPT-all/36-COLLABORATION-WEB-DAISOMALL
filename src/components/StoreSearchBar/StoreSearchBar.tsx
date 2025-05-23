@@ -11,7 +11,7 @@ const StoreSearchBar = ({ onSearch }: StoreSearchBarProps) => {
 
   const handleSearch = () => {
     const trimmed = keyword.trim();
-    if (trimmed && onSearch) onSearch(trimmed);
+    if (onSearch) onSearch(trimmed);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

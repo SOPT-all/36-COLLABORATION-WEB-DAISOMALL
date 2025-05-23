@@ -41,42 +41,42 @@ const HomeCarousel = ({
   autoplaySpeed = 5000,
 }: HomeCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   // ImageCarousel에 전달할 이미지 URL 배열
-  const imageUrls = items.map(item => item.imageUrl);
-  
+  const imageUrls = items.map((item) => item.imageUrl);
+
   // 인덱스 추적 함수를 useCallback으로 최적화
   const trackActiveSlide = useCallback(() => {
     const activeSlide = document.querySelector('.slick-slide.slick-active');
     if (!activeSlide) return;
-    
+
     const dataIndex = activeSlide.getAttribute('data-index');
     if (!dataIndex) return;
-    
+
     const index = parseInt(dataIndex, 10);
     if (!isNaN(index) && index !== currentIndex) {
       setCurrentIndex(index);
     }
   }, [currentIndex]);
-  
+
   // 슬라이드 인덱스 추적
   useEffect(() => {
     trackActiveSlide();
-    
+
     const intervalId = setInterval(trackActiveSlide, 500);
-    
+
     // MutationObserver 설정 최적화
     const observer = new MutationObserver(trackActiveSlide);
     const slickTrack = document.querySelector('.slick-track');
-    
+
     if (slickTrack) {
-      observer.observe(slickTrack, { 
-        attributes: true, 
-        attributeFilter: ['class'], 
-        subtree: true 
+      observer.observe(slickTrack, {
+        attributes: true,
+        attributeFilter: ['class'],
+        subtree: true,
       });
     }
-    
+
     return () => {
       clearInterval(intervalId);
       observer.disconnect();
@@ -86,16 +86,16 @@ const HomeCarousel = ({
   return (
     <div css={S.homeCarouselWrapper}>
       {/* ImageCarousel 컴포넌트 */}
-      <ImageCarousel 
-        images={imageUrls} 
-        autoplay={autoplay} 
+      <ImageCarousel
+        images={imageUrls}
+        autoplay={autoplay}
         autoSlideInterval={autoplaySpeed}
         bottomPadding="200rem"
       />
-      
+
       {/* 그라데이션 배경 */}
       <div css={S.gradientBackground} />
-      
+
       {/* 피그마 디자인에 맞는 콘텐츠 래퍼 */}
       <div css={S.bottomContent}>
         <div css={S.contentWrapper}>
@@ -109,11 +109,12 @@ const HomeCarousel = ({
               ))}
             </div>
           </div>
-          
+
           {/* OrderIndicator 컴포넌트 */}
           <OrderIndicator
             currentIndex={currentIndex}
             totalItems={items.length}
+            isHome={true}
           />
         </div>
       </div>
