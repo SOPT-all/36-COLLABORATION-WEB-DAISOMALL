@@ -14,7 +14,7 @@ import * as S from './ProductDetailPage.style';
 import theme from '@styles/theme';
 import Divider from '@components/common/divider/Divider';
 import DividerThick from '@components/common/divider/DividerThick';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import BottomCarousel from './components/Carousel/BottomCarousel';
 import Review from './components/Review/Review';
 import TodayDiscovery from './components/TodayDiscovery/TodayDiscovery';
@@ -26,6 +26,8 @@ const ProductDetailPage = () => {
   const productTitle = '다이소 베이직 노트북 파우치 15인치';
   
   const [isImageExpanded, setIsImageExpanded] = useState(false);
+  const [isNavBarSticky, setIsNavBarSticky] = useState(false);
+  const navBarRef = useRef<HTMLDivElement>(null);
 
   const carouselImages = [
     'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
@@ -47,6 +49,20 @@ const ProductDetailPage = () => {
   const handleExpandImage = () => {
     setIsImageExpanded(true);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (navBarRef.current) {
+        const navBarPosition = navBarRef.current.getBoundingClientRect().top;
+        setIsNavBarSticky(navBarPosition <= 0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <div css={S.productDetailStyle}>
@@ -109,7 +125,14 @@ const ProductDetailPage = () => {
       <DividerThick />
 
       {/* 9. 네비게이션 바 */}
-      <NavBar />
+      {isNavBarSticky && (
+        <div css={S.stickyNavBarStyle}>
+          <NavBar />
+        </div>
+      )}
+      <div ref={navBarRef}>
+        <NavBar />
+      </div>
 
       <Divider />
 

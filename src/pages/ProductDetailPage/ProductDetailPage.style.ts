@@ -42,6 +42,19 @@ export const productsGridStyle = css`
   gap: 1.6rem;
 `;
 
+export const stickyNavBarStyle = css`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 768px;
+  margin: 0 auto;
+  width: 100%;
+`;
+
 export const viewMoreButtonWrapper = css`
   padding: 0 1.6rem 1.9rem;
   width: 100%;
