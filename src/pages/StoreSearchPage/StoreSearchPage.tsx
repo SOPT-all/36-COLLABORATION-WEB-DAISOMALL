@@ -39,6 +39,41 @@ const StoreSearchPage = () => {
     }
   }, [location]);
 
+  // 상세페이지에서 productId를 state로 받아온 경우 해당 상품 자동 선택
+  useEffect(() => {
+    const productIdFromState = location.state?.productId;
+    if (
+      productIdFromState &&
+      allProducts.length > 0 &&
+      (!selectedProduct || selectedProduct.productId !== Number(productIdFromState))
+    ) {
+      const found = allProducts.find((p) => p.productId === Number(productIdFromState));
+      if (found) {
+        setSelectedProduct({
+          productId: found.productId,
+          name: found.productName,
+          imageUrl: found.mainImage,
+          price: found.price.toString(),
+          code: found.productCode,
+        });
+      }
+    }
+  }, [location.state, allProducts, selectedProduct]);
+
+  // allProducts가 비어있고 productId가 state에 있으면 렌더링 잠시 멈춤
+  if (location.state?.productId && allProducts.length === 0) {
+    return null; // 또는 로딩 스피너
+  }
+
+  // productId가 state에 있는데 selectedProduct가 아직 세팅 안 됐으면 렌더링 잠시 멈춤
+  if (
+    location.state?.productId &&
+    allProducts.length > 0 &&
+    (!selectedProduct || selectedProduct.productId !== Number(location.state.productId))
+  ) {
+    return null; // 또는 로딩 스피너
+  }
+
   const handleSearch = (keyword: string) => {
     setSearchKeyword(keyword);
     setSelectedTab(null);

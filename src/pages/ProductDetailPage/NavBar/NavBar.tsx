@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { useState, useRef, useEffect } from 'react';
 import * as S from './NavBar.style';
 
@@ -11,17 +10,23 @@ interface TabInfo {
 interface NavBarProps {
   onTabClick?: (tabId: number) => void;
   reviewCount?: number;
+  activeTab: number;
+  setActiveTab: (id: number) => void;
 }
 
-const NavBar = ({ onTabClick, reviewCount }: NavBarProps) => {
-  const [activeTab, setActiveTab] = useState(1);
+const NavBar = ({
+  onTabClick,
+  reviewCount,
+  activeTab,
+  setActiveTab,
+}: NavBarProps) => {
   const [barPosition, setBarPosition] = useState(0);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   const tabs: TabInfo[] = [
     { id: 1, title: '상품설명' },
     { id: 2, title: '리뷰', count: reviewCount || 0 },
-    { id: 3, title: '상품정보' }
+    { id: 3, title: '상품정보' },
   ];
 
   // 활성 탭이 변경되면 바의 위치를 업데이트
@@ -29,7 +34,8 @@ const NavBar = ({ onTabClick, reviewCount }: NavBarProps) => {
     if (tabRefs.current[activeTab - 1]) {
       const activeTabElement = tabRefs.current[activeTab - 1];
       if (activeTabElement) {
-        const containerLeft = activeTabElement.parentElement?.getBoundingClientRect().left || 0;
+        const containerLeft =
+          activeTabElement.parentElement?.getBoundingClientRect().left || 0;
         const tabLeft = activeTabElement.getBoundingClientRect().left;
         setBarPosition(tabLeft - containerLeft);
       }
@@ -46,7 +52,9 @@ const NavBar = ({ onTabClick, reviewCount }: NavBarProps) => {
       {tabs.map((tab, index) => (
         <button
           key={tab.id}
-          ref={el => { tabRefs.current[index] = el; }}
+          ref={(el) => {
+            tabRefs.current[index] = el;
+          }}
           css={S.tabItem}
           onClick={() => handleTabClick(tab.id)}
           aria-selected={tab.id === activeTab}
@@ -60,11 +68,11 @@ const NavBar = ({ onTabClick, reviewCount }: NavBarProps) => {
         </button>
       ))}
       <div css={S.activeBarContainer}>
-        <div 
-          css={S.activeBar} 
-          style={{ 
+        <div
+          css={S.activeBar}
+          style={{
             transform: `translateX(${barPosition}px)`,
-            width: tabRefs.current[activeTab - 1]?.offsetWidth || '33.33%'
+            width: tabRefs.current[activeTab - 1]?.offsetWidth || '33.33%',
           }}
         />
       </div>

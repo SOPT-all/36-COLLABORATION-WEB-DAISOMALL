@@ -12,6 +12,7 @@ interface HeaderProps {
   showHomeIcon?: boolean;
   showCartIcon?: boolean;
   onBackClick?: () => void;
+  onHomeClick?: () => void;
 }
 
 const Header = ({
@@ -24,6 +25,7 @@ const Header = ({
   showHomeIcon = false,
   showCartIcon = false,
   onBackClick,
+  onHomeClick,
 }: HeaderProps) => {
   const navigate = useNavigate();
   const wrapperStyle = showHeader ? S.AnimatedWrapper(true) : S.Wrapper;
@@ -33,6 +35,14 @@ const Header = ({
       onBackClick();
     } else {
       navigate(-1);
+    }
+  };
+
+  const handleHomeClick = () => {
+    if (onHomeClick) {
+      onHomeClick();
+    } else {
+      navigate('/');
     }
   };
 
@@ -51,7 +61,7 @@ const Header = ({
       </div>
       <div css={S.RightContainer}>
         {showSearchIcon && <SearchIcon css={S.NavIcons} />}
-        {showHomeIcon && <TohomeIcon css={S.NavIcons} />}
+        {showHomeIcon && <TohomeIcon css={S.NavIcons} onClick={handleHomeClick} style={{ cursor: 'pointer' }} />}
         {showCartIcon && <CartIcon css={S.NavIcons} />}
       </div>
     </div>

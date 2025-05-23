@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import Header from '@components/Header/Header';
 import ImageCarousel from '@components/ImageCarousel/ImageCarousel';
 import ProductPageInfo from '../ProductPage/components/ProductPageInfo';
@@ -14,7 +13,7 @@ import * as S from './ProductDetailPage.style';
 import theme from '@styles/theme';
 import Divider from '@components/common/divider/Divider';
 import { useState, useRef, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import BottomCarousel from './components/Carousel/BottomCarousel';
 import Review from './components/Review/Review';
 import TodayDiscovery from './components/TodayDiscovery/TodayDiscovery';
@@ -37,6 +36,7 @@ import type {
 
 const ProductDetailPage = () => {
   const { productId } = useParams<{ productId: string }>();
+  const navigate = useNavigate();
   const [productData, setProductData] =
     useState<GetProductDetailResponseData | null>(null);
   const [reviewData, setReviewData] = useState<GetReviewsResponseData | null>(
@@ -58,6 +58,7 @@ const ProductDetailPage = () => {
   const brandInfoRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
   const buyBarRef = useRef<HTMLDivElement>(null);
+  const accordionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -116,28 +117,57 @@ const ProductDetailPage = () => {
     setIsImageExpanded(true);
   };
 
+  const HEADER_HEIGHT_PX = 48;
+  const [activeTab, setActiveTab] = useState(1);
+  const SCROLL_MARGIN = 20; // 여유 마진 추가
+
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      if (navBarRef.current) {
-        const navBarPosition = navBarRef.current.getBoundingClientRect().top;
-        setIsNavBarSticky(navBarPosition <= 0);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const navBarHeight = navBarRef.current?.offsetHeight ?? 0;
+          const offset = navBarHeight + HEADER_HEIGHT_PX;
+
+          const navBarTop =
+            navBarRef.current?.getBoundingClientRect().top ?? 9999;
+          setIsNavBarSticky(navBarTop <= HEADER_HEIGHT_PX);
+
+          const brandTop = brandInfoRef.current?.offsetTop ?? 0;
+          const reviewTop = reviewRef.current?.offsetTop ?? 0;
+          const accordionTop = accordionRef.current?.offsetTop ?? 0;
+
+          const currentScroll = scrollY + offset + SCROLL_MARGIN;
+
+          if (currentScroll >= accordionTop) {
+            if (activeTab !== 3) setActiveTab(3);
+          } else if (currentScroll >= reviewTop) {
+            if (activeTab !== 2) setActiveTab(2);
+          } else if (currentScroll >= brandTop) {
+            if (activeTab !== 1) setActiveTab(1);
+          }
+
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [activeTab]);
 
   // 네비게이션 바 클릭 핸들러 추가
   const handleNavTabClick = (tabId: number) => {
     const navBarHeight = navBarRef.current?.offsetHeight || 0;
+    const totalOffset = navBarHeight + HEADER_HEIGHT_PX;
 
     switch (tabId) {
       case 1: // 상품설명 -> 브랜드 정보로 스크롤
         if (brandInfoRef.current) {
-          const targetPosition = brandInfoRef.current.offsetTop - navBarHeight;
+          const targetPosition = brandInfoRef.current.offsetTop - totalOffset;
           window.scrollTo({
             top: targetPosition,
             behavior: 'smooth',
@@ -146,17 +176,18 @@ const ProductDetailPage = () => {
         break;
       case 2: // 리뷰 -> 리뷰 컴포넌트로 스크롤
         if (reviewRef.current) {
-          const targetPosition = reviewRef.current.offsetTop - navBarHeight;
+          const targetPosition = reviewRef.current.offsetTop - totalOffset;
           window.scrollTo({
             top: targetPosition,
             behavior: 'smooth',
           });
         }
         break;
-      case 3: // 상품정보 -> 페이지 최하단으로 스크롤
-        if (buyBarRef.current) {
+      case 3: // 상품정보 → Accordion으로 스크롤
+        if (accordionRef.current) {
+          const targetPosition = accordionRef.current.offsetTop - totalOffset;
           window.scrollTo({
-            top: document.body.scrollHeight,
+            top: targetPosition,
             behavior: 'smooth',
           });
         }
@@ -207,6 +238,20 @@ const ProductDetailPage = () => {
     '전체 리뷰 개수': reviewData?.reviews?.length || 0,
   });
 
+  // Header 버튼 핸들러
+  const handleBackClick = () => {
+    const idToUse = productId ? Number(productId) : productData?.productId;
+    if (idToUse) {
+      navigate('/store-list', { state: { productId: idToUse } });
+    } else {
+      alert('상세페이지에서 상품 ID를 찾을 수 없습니다!');
+      navigate('/store-list');
+    }
+  };
+  const handleHomeClick = () => {
+    navigate('/');
+  };
+
   return (
     <div css={S.productDetailStyle}>
       {/* 1. 헤더 */}
@@ -217,6 +262,8 @@ const ProductDetailPage = () => {
         showSearchIcon={true}
         showCartIcon={true}
         showHomeIcon={true}
+        onBackClick={handleBackClick}
+        onHomeClick={handleHomeClick}
       />
 
       {/* 2. 이미지 캐러셀 - API productImages.main 배열 사용 */}
@@ -307,6 +354,8 @@ const ProductDetailPage = () => {
           <NavBar
             onTabClick={handleNavTabClick}
             reviewCount={reviewData?.reviews?.length}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
           />
         </div>
       )}
@@ -314,6 +363,8 @@ const ProductDetailPage = () => {
         <NavBar
           onTabClick={handleNavTabClick}
           reviewCount={reviewData?.reviews?.length}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
         />
       </div>
 
@@ -336,17 +387,29 @@ const ProductDetailPage = () => {
             isImageExpanded ? S.expandedImageStyle : S.collapsedImageStyle,
           ]}
         >
-          <img
-            src={detailImages[0]}
-            alt="상품 상세 이미지"
-            style={{ width: '100%', objectFit: 'cover' }}
-          />
+          <div
+            style={{
+              width: '100%',
+              height: isImageExpanded ? 'auto' : '138.2rem',
+              overflow: 'hidden',
+            }}
+          >
+            <img
+              src={detailImages[0]}
+              alt="상품 상세 이미지"
+              style={{
+                width: '100%',
+                height: 'auto',
+                objectFit: 'cover',
+              }}
+            />
+          </div>
 
           {/* 12. 네비게이션 버튼 */}
           {!isImageExpanded && (
             <div css={S.viewMoreButtonWrapper}>
               <ViewMoreButton
-                buttonText="상품 상세 정보"
+                buttonText="상세설명 더보기"
                 onExpand={handleExpandImage}
               >
                 <div>상품 상세 정보 내용</div>
@@ -463,7 +526,9 @@ const ProductDetailPage = () => {
       <Divider height="8px" color={theme.colors['gray-06']} />
 
       {/* 18. 기타 정보 */}
-      <Accordion />
+      <div ref={accordionRef}>
+        <Accordion />
+      </div>
       <div ref={buyBarRef}>
         <BuyBar />
       </div>

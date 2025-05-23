@@ -19,7 +19,7 @@ export const imageContainerStyle = css`
 `;
 
 export const collapsedImageStyle = css`
-  height: 20rem;
+  height: 138.2rem;
 `;
 
 export const expandedImageStyle = css`
@@ -59,7 +59,7 @@ export const productsGridStyle = css`
 
 export const stickyNavBarStyle = css`
   position: fixed;
-  top: 0;
+  top: 4.8rem;
   left: 0;
   right: 0;
   z-index: 100;
