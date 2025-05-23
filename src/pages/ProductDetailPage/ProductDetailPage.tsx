@@ -13,7 +13,6 @@ import SectionTitle from '@components/common/SectionTitle/SectionTitle';
 import * as S from './ProductDetailPage.style';
 import theme from '@styles/theme';
 import Divider from '@components/common/divider/Divider';
-import DividerThick from '@components/common/divider/DividerThick';
 import { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import BottomCarousel from './components/Carousel/BottomCarousel';
@@ -78,34 +77,30 @@ const ProductDetailPage = () => {
     return;
   }
 
-  // API에서 받아온 데이터 또는 기본 더미 데이터
-  const productTitle = productData?.productName || '다이소 베이직 노트북 파우치 15인치';
+  // API에서 받아온 데이터만 사용 (더미 데이터 제거)
+  const productTitle = productData?.productName || '';
   
-  // API 이미지 배열 처리 개선
-  const apiImages = productData?.productImages?.main?.map(img => img.imageUrl).filter(Boolean) || [];
-  const mainImages = apiImages.length > 0 ? apiImages : [
-    'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
-    'https://images.unsplash.com/photo-1560769629-975ec94e6a86',
-    'https://images.unsplash.com/photo-1549298916-b41d501d3772'
-  ];
+  // API 응답 구조에 정확히 맞춘 이미지 처리
+  console.log('전체 productData:', productData);
+  console.log('productImages 전체:', productData?.productImages);
+  console.log('main 배열:', productData?.productImages?.main);
+  console.log('detail 배열:', productData?.productImages?.detail);
   
-  console.log('이미지 배열 정보:', {
-    apiImages: apiImages,
-    apiImagesLength: apiImages.length,
-    finalMainImages: mainImages,
-    finalMainImagesLength: mainImages.length
+  // main 이미지들 (2번 캐러셀용)
+  const mainImages = productData?.productImages?.main?.map(img => img.imageUrl).filter(Boolean) || [];
+  
+  // detail 이미지들 (11번 상세 이미지용)  
+  const detailImages = productData?.productImages?.detail?.map(img => img.imageUrl).filter(Boolean) || [];
+  
+  console.log('처리된 이미지 배열:', {
+    'main 이미지들 (2번 캐러셀용)': mainImages,
+    'main 이미지 개수': mainImages.length,
+    'detail 이미지들 (11번 상세용)': detailImages,
+    'detail 이미지 개수': detailImages.length
   });
 
-  const reviewImages = [
-    'https://images.unsplash.com/photo-1549298916-b41d501d3772',
-    'https://images.unsplash.com/photo-1560769629-975ec94e6a86',
-    'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
-    'https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb',
-    'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a',
-    'https://images.unsplash.com/photo-1587563871167-1ee9c731aefb',
-    'https://images.unsplash.com/photo-1543508282-6319a3e2621f',
-    'https://images.unsplash.com/photo-1607522370275-f14206abe5d3'
-  ];
+  // 리뷰 이미지도 API에서 가져올 때까지 빈 배열로 처리
+  const reviewImages: string[] = [];
 
   return (
     <div css={S.productDetailStyle}>
@@ -119,7 +114,7 @@ const ProductDetailPage = () => {
         showHomeIcon={true}
       />
 
-      {/* 2. 이미지 캐러셀 */}
+      {/* 2. 이미지 캐러셀 - API productImages.main 배열 사용 */}
       <ImageCarousel images={mainImages} height="50rem" />
 
       {/* 3. 상품 정보 */}
@@ -138,25 +133,27 @@ const ProductDetailPage = () => {
       {/* 6. 혜택 정보 */}
       <PerkInfo />
 
-      <DividerThick />
+      <Divider height="8px" color={theme.colors['gray-06']} />
 
-      {/* 7. 상품 카드 (수직형) */}
-      <div css={S.recommendedProductsStyle}>
-        <SectionTitle 
-          title1="다른 고객이 함께 본 상품"
-          onClickAll={() => console.log('이런 상품은 어때요? 전체보기 클릭')}
-        />
-        <ProductCardVertical 
-          size="96"
-          name="다이소 베이직 노트북 파우치 15인치"
-          totalPrice="5,000"
-          unitPrice="5,000"
-          imageUrl="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
-          tags={[{ label: '베스트', bg: '#FF5C5C', color: '#FFFFFF' }]}
-        />
-      </div>
+      {/* 7. 상품 카드 (수직형) - API 데이터가 없으면 숨김 */}
+      {false && ( // 추후 추천 상품 API 연결시 조건 변경
+        <div css={S.recommendedProductsStyle}>
+          <SectionTitle 
+            title1="다른 고객이 함께 본 상품"
+            onClickAll={() => console.log('이런 상품은 어때요? 전체보기 클릭')}
+          />
+          <ProductCardVertical 
+            size="96"
+            name="다이소 베이직 노트북 파우치 15인치"
+            totalPrice="5,000"
+            unitPrice="5,000"
+            imageUrl="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+            tags={[{ label: '베스트', bg: '#FF5C5C', color: '#FFFFFF' }]}
+          />
+        </div>
+      )}
 
-      <DividerThick />
+      <Divider height="8px" color={theme.colors['gray-06']} />
 
       {/* 8. 이미지 캐러셀 (두번째) */}
       <ImageCarousel 
@@ -165,7 +162,7 @@ const ProductDetailPage = () => {
         height="8rem"
       />
 
-      <DividerThick />
+      <Divider height="8px" color={theme.colors['gray-06']} />
 
       {/* 9. 네비게이션 바 */}
       {isNavBarSticky && (
@@ -181,83 +178,97 @@ const ProductDetailPage = () => {
 
       {/* 10. 브랜드 정보 */}
       <BrandInfo 
-        brandName={productData?.brandName || "다이소"}
+        brandName={productData?.brandName || ""}
         brandDescription="일상을 다채롭게, 가격은 합리적으로! 다이소의 다양한 상품들을 만나보세요."
-        brandImageUrl="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da"
+        brandImageUrl="" // 브랜드 이미지도 API에서 가져올 때까지 빈값
         isLoading={false}
       />
 
-      {/* 11. 이미지 영역 */}
-      <div css={[S.imageContainerStyle, isImageExpanded ? S.expandedImageStyle : S.collapsedImageStyle]}>
-        <img 
-          src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2" 
-          alt="상품 상세 이미지"
-          style={{ width: '100%', objectFit: 'cover' }}
-        />
+      {/* 11. 이미지 영역 - API productImages.detail 배열의 첫 번째 이미지 사용 */}
+      {detailImages.length > 0 && (
+        <div css={[S.imageContainerStyle, isImageExpanded ? S.expandedImageStyle : S.collapsedImageStyle]}>
+          <img 
+            src={detailImages[0]} 
+            alt="상품 상세 이미지"
+            style={{ width: '100%', objectFit: 'cover' }}
+          />
 
-        {/* 12. 네비게이션 버튼 */}
-        {!isImageExpanded && (
-          <div css={S.viewMoreButtonWrapper}>
-            <ViewMoreButton 
-              buttonText="상품 상세 정보" 
-              onExpand={handleExpandImage}
-            >
-              <div>상품 상세 정보 내용</div>
-            </ViewMoreButton>
-          </div>
-        )}
-      </div>
+          {/* 12. 네비게이션 버튼 */}
+          {!isImageExpanded && (
+            <div css={S.viewMoreButtonWrapper}>
+              <ViewMoreButton 
+                buttonText="상품 상세 정보" 
+                onExpand={handleExpandImage}
+              >
+                <div>상품 상세 정보 내용</div>
+              </ViewMoreButton>
+            </div>
+          )}
+        </div>
+      )}
 
-      <DividerThick />
+      <Divider height="8px" color={theme.colors['gray-06']} />
 
-      {/* 13 & 14. 추천 상품 (ProductCardVertical 두 개) */}
-      <div css={S.recommendedProductsStyle}>
-        <SectionTitle 
-          title1="VT"
-          title2="브랜드 상품 모아보기"
-          title1Color={theme.colors['gray-03']}
-          onClickAll={() => console.log('브랜드 상품 모아보기 클릭')}
-          image={
-            <img 
-              src="https://images.unsplash.com/photo-1526947425960-945c6e72858f" 
-              alt="VT 브랜드" 
-              style={{ width: '3.2rem', height: '3.2rem', borderRadius: '50%', objectFit: 'cover' }}
-            />
-          }
-        />
-        <ProductCardVertical 
-          size="96"
-          name="다이소 미니 멀티탭 1.5m"
-          totalPrice="3,000"
-          imageUrl="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb"
-          tags={[{ label: '신상', bg: theme.colors['gray-05'], color: theme.colors['primary'] }]}
-        />
-      </div>
+      {/* 13 추천 상품 - API 데이터가 없으면 숨김 */}
+      {false && ( // 추후 브랜드 상품 API 연결시 조건 변경
+        <div css={S.recommendedProductsStyle}>
+          <SectionTitle 
+            title1="VT"
+            title2="브랜드 상품 모아보기"
+            title1Color={theme.colors['gray-03']}
+            onClickAll={() => console.log('브랜드 상품 모아보기 클릭')}
+            image={
+              <img 
+                src="https://images.unsplash.com/photo-1526947425960-945c6e72858f" 
+                alt="VT 브랜드" 
+                style={{ width: '3.2rem', height: '3.2rem', borderRadius: '50%', objectFit: 'cover' }}
+              />
+            }
+          />
+          <ProductCardVertical 
+            size="96"
+            name="다이소 미니 멀티탭 1.5m"
+            totalPrice="3,000"
+            imageUrl="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb"
+            tags={[{ label: '신상', bg: theme.colors['gray-05'], color: theme.colors['primary'] }]}
+          />
+        </div>
+      )}
 
-      <DividerThick />
+      <Divider height="8px" color={theme.colors['gray-06']} />
 
-      <div css={S.recommendedProductsStyle}>
-        <SectionTitle 
-          title1="이런 기초스킨케어 상품은 어때요?"
-          onClickAll={() => console.log('이런 기초스킨케어 상품은 어때요? 전체보기 클릭')}
-        />
-        <ProductCardVertical 
-          size="96"
-          name="다이소 LED 무드등"
-          totalPrice="5,000"
-          imageUrl="https://images.unsplash.com/photo-1543508282-6319a3e2621f"
-          tags={[{ label: '인기', bg: theme.colors['primary'], color: theme.colors['gray-05'] }]}
-        />
-      </div>
+      {/* 14. 관련 상품 추천 */}
+      {false && ( // 추후 추천 상품 API 연결시 조건 변경
+        <div css={S.recommendedProductsStyle}>
+          <SectionTitle 
+            title1="이런 기초스킨케어 상품은 어때요?"
+            onClickAll={() => console.log('이런 기초스킨케어 상품은 어때요? 전체보기 클릭')}
+          />
+          <ProductCardVertical 
+            size="96"
+            name="다이소 LED 무드등"
+            totalPrice="5,000"
+            imageUrl="https://images.unsplash.com/photo-1543508282-6319a3e2621f"
+            tags={[{ label: '인기', bg: theme.colors['primary'], color: theme.colors['gray-05'] }]}
+          />
+        </div>
+      )}
 
-      <DividerThick />
-      
+      <Divider height="8px" color={theme.colors['gray-06']} />
+
+      {/* 15. 오늘의 발견 */}
       <TodayDiscovery />
       <Divider height="8px" color={theme.colors['gray-06']} />
+
+      {/* 16. 하단 캐러셀 */}
       <BottomCarousel />
       <Divider height="8px" color={theme.colors['gray-06']} />
+
+      {/* 17. 리뷰 */}  
       <Review />
       <Divider height="8px" color={theme.colors['gray-06']} />
+
+      {/* 18. 기타 정보 */}
       <Accordion />
       <BuyBar />
     </div>
