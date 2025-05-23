@@ -1,4 +1,4 @@
-import { MenuIcon, StarIconRed, ThumbUpIcon } from '@assets/svgs';
+import { MenuIcon, StarIcon, ThumbUpIcon } from '@assets/svgs';
 import * as S from './Comment.style';
 
 interface CommentProps {
@@ -34,7 +34,7 @@ const Comment = ({
           <p css={S.BodyTextStyle}>{nickname}</p>
         </div>
         <div css={S.MiddleSection}>
-          <StarIconRed width={11} height={11} />
+          <StarIcon width={11} height={11} />
           <p css={S.CaptionTextStyle}>{rating}점 | 2025-05-01</p>
         </div>
       </div>

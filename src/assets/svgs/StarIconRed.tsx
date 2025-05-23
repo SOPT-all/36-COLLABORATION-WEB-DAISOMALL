@@ -4,7 +4,6 @@ const SvgStarIconRed = (props: SVGProps<SVGSVGElement>) => (
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 11 11"
-    style={{ transform: 'translateY(-10%)' }}
     {...props}
   >
     <g clipPath="url(#star-icon-red_svg__a)">
