@@ -19,7 +19,7 @@ export const imageContainerStyle = css`
 `;
 
 export const collapsedImageStyle = css`
-  height: 20rem;
+  height: 138.2rem;
 `;
 
 export const expandedImageStyle = css`

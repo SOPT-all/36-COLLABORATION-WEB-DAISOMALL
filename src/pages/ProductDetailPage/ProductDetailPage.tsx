@@ -353,17 +353,29 @@ const ProductDetailPage = () => {
             isImageExpanded ? S.expandedImageStyle : S.collapsedImageStyle,
           ]}
         >
-          <img
-            src={detailImages[0]}
-            alt="상품 상세 이미지"
-            style={{ width: '100%', objectFit: 'cover' }}
-          />
+          <div
+            style={{
+              width: '100%',
+              height: isImageExpanded ? 'auto' : '138.2rem',
+              overflow: 'hidden',
+            }}
+          >
+            <img
+              src={detailImages[0]}
+              alt="상품 상세 이미지"
+              style={{
+                width: '100%',
+                height: 'auto',
+                objectFit: 'cover',
+              }}
+            />
+          </div>
 
           {/* 12. 네비게이션 버튼 */}
           {!isImageExpanded && (
             <div css={S.viewMoreButtonWrapper}>
               <ViewMoreButton
-                buttonText="상품 상세 정보"
+                buttonText="상세설명 더보기"
                 onExpand={handleExpandImage}
               >
                 <div>상품 상세 정보 내용</div>
