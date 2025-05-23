@@ -21,6 +21,7 @@ export const Container = css`
   align-items: center;
   padding: 0.9rem 1rem;
   width: 7.2rem;
+  cursor: pointer;
 `;
 
 export const BasicIcon = css`
@@ -38,6 +39,7 @@ export const CenterContainer = css`
   position: relative;
   padding: 0.9rem 1rem;
   width: 8.6rem;
+  cursor: pointer;
 `;
 
 export const CircleButton = css`
