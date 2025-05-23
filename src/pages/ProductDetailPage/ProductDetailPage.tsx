@@ -82,7 +82,7 @@ const ProductDetailPage = () => {
 
   // 로딩 중일 때 표시 (모든 Hook 호출 후)
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return;
   }
 
   // API에서 받아온 데이터만 사용 (더미 데이터 제거)
@@ -197,9 +197,9 @@ const ProductDetailPage = () => {
 
       {/* 10. 브랜드 정보 */}
       <BrandInfo 
-        brandName={productData?.brandName || ""}
-        brandDescription="일상을 다채롭게, 가격은 합리적으로! 다이소의 다양한 상품들을 만나보세요."
-        brandImageUrl="" // 브랜드 이미지도 API에서 가져올 때까지 빈값
+        brandName="VT"
+        brandDescription="유행을 창조하는 Stylish와 시간에 구애받지 않는 Timeless 효과로 당신의 매일을 함께하는 VT의 스페셜 홈케어! 리들샷의 따끔한 미세자극으로 건강한 피부를 가꿔보세요."
+        brandImageUrl="/VT.png"
         isLoading={false}
       />
 

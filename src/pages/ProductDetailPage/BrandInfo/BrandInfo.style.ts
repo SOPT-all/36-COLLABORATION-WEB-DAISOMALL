@@ -23,7 +23,7 @@ export const container = css`
 export const contentWrapper = css`
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   gap: 1.6rem;
   width: 100%;
 `;
