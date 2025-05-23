@@ -45,3 +45,16 @@ export interface GetReviewsResponseData {
   reviews: Review[];
   pageable: Pageable;
 }
+
+// 브랜드별 상품 조회 API 관련 타입들
+export interface BrandProduct {
+  productId: number;
+  productName: string;
+  price: number;
+  tags: string[];
+}
+
+export interface GetBrandProductsResponseData {
+  products: BrandProduct[];
+  pageable: Pageable;
+}

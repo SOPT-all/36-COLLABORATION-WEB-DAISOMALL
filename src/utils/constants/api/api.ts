@@ -5,4 +5,5 @@ export const END_POINT = {
   GET_PRODUCTS_ID: (productId: number) => `/api/v1/products/${productId}`,
   GET_PRODUCTS_POPULAR: '/api/v1/products/popular',
   GET_REVIEWS: '/api/v1/reviews',
+  GET_BRAND_PRODUCTS: (brandId: number) => `/api/v1/brands/${brandId}/products`,
 } as const;

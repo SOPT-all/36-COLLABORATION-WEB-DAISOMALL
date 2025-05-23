@@ -20,13 +20,14 @@ import Review from './components/Review/Review';
 import TodayDiscovery from './components/TodayDiscovery/TodayDiscovery';
 import Accordion from './components/Accordion/Accordion';
 import BuyBar from './components/BuyBar/BuyBar';
-import { getProductDetail, getReviews } from '@apis/detail/product';
-import type { GetProductDetailResponseData, GetReviewsResponseData } from '@app-types/product';
+import { getProductDetail, getReviews, getBrandProducts } from '@apis/detail/product';
+import type { GetProductDetailResponseData, GetReviewsResponseData, GetBrandProductsResponseData } from '@app-types/product';
 
 const ProductDetailPage = () => {
   const { productId } = useParams<{ productId: string }>();
   const [productData, setProductData] = useState<GetProductDetailResponseData | null>(null);
   const [reviewData, setReviewData] = useState<GetReviewsResponseData | null>(null);
+  const [brandProductsData, setBrandProductsData] = useState<GetBrandProductsResponseData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   
   const [isImageExpanded, setIsImageExpanded] = useState(false);
@@ -41,17 +42,20 @@ const ProductDetailPage = () => {
         const id = productId ? parseInt(productId) : 1; // productId가 없으면 기본값 1 사용
         console.log('API 요청 - productId:', id);
         
-        // 상품 정보와 리뷰를 병렬로 호출
-        const [productResponse, reviewResponse] = await Promise.all([
+        // 상품 정보, 리뷰, 브랜드별 상품을 병렬로 호출
+        const [productResponse, reviewResponse, brandProductsResponse] = await Promise.all([
           getProductDetail(id),
-          getReviews(id, 0, 20) // 첫 번째 페이지, 20개씩
+          getReviews(id, 0, 20), // 첫 번째 페이지, 20개씩
+          getBrandProducts(1, 0, 10), // brandId는 1로 고정, 10개씩
         ]);
         
         console.log('상품 API 응답:', productResponse);
         console.log('리뷰 API 응답:', reviewResponse);
+        console.log('브랜드별 상품 API 응답:', brandProductsResponse);
         
         setProductData(productResponse);
         setReviewData(reviewResponse);
+        setBrandProductsData(brandProductsResponse);
       } catch (error) {
         console.error('API 호출 실패:', error);
       } finally {
@@ -228,8 +232,8 @@ const ProductDetailPage = () => {
 
       <Divider height="8px" color={theme.colors['gray-06']} />
 
-      {/* 13 추천 상품 - API 데이터가 없으면 숨김 */}
-      {false && ( // 추후 브랜드 상품 API 연결시 조건 변경
+      {/* 13 추천 상품 - 브랜드별 상품 API 데이터 사용 */}
+      {brandProductsData?.products && brandProductsData.products.length > 0 && (
         <div css={S.recommendedProductsStyle}>
           <SectionTitle 
             title1="VT"
@@ -238,19 +242,26 @@ const ProductDetailPage = () => {
             onClickAll={() => console.log('브랜드 상품 모아보기 클릭')}
             image={
               <img 
-                src="https://images.unsplash.com/photo-1526947425960-945c6e72858f" 
+                src="/VT.png" 
                 alt="VT 브랜드" 
                 style={{ width: '3.2rem', height: '3.2rem', borderRadius: '50%', objectFit: 'cover' }}
               />
             }
           />
-          <ProductCardVertical 
-            size="96"
-            name="다이소 미니 멀티탭 1.5m"
-            totalPrice="3,000"
-            imageUrl="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb"
-            tags={[{ label: '신상', bg: theme.colors['gray-05'], color: theme.colors['primary'] }]}
-          />
+          {brandProductsData.products.slice(0, 3).map((product) => (
+            <ProductCardVertical 
+              key={product.productId}
+              size="96"
+              name={product.productName}
+              totalPrice={product.price.toLocaleString()}
+              imageUrl="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb" // 임시 이미지
+              tags={product.tags.map(tag => ({ 
+                label: tag, 
+                bg: theme.colors['gray-05'], 
+                color: theme.colors['primary'] 
+              }))}
+            />
+          ))}
         </div>
       )}
 

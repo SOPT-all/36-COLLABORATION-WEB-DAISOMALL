@@ -1,6 +1,6 @@
 import { END_POINT } from '@utils/constants/api/api';
 import { instance } from '@apis/instance';
-import type { GetProductDetailResponseData, GetReviewsResponseData } from '@app-types/product';
+import type { GetProductDetailResponseData, GetReviewsResponseData, GetBrandProductsResponseData } from '@app-types/product';
 import type { ApiResponse } from '@app-types/apiResponseType';
 
 export const getProductDetail = async (
@@ -22,6 +22,23 @@ export const getReviews = async (
     {
       params: {
         productId,
+        pageNumber,
+        pageSize,
+      },
+    }
+  );
+  return response.data.data;
+};
+
+export const getBrandProducts = async (
+  brandId: number,
+  pageNumber: number = 0,
+  pageSize: number = 10,
+): Promise<GetBrandProductsResponseData> => {
+  const response = await instance.get<ApiResponse<GetBrandProductsResponseData>>(
+    END_POINT.GET_BRAND_PRODUCTS(brandId),
+    {
+      params: {
         pageNumber,
         pageSize,
       },
