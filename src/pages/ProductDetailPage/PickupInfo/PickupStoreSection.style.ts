@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import theme from '../../../styles/theme'; // 경로 수정
+import theme from '@styles/theme';
 
 export const InfoRow = css`
   display: flex;

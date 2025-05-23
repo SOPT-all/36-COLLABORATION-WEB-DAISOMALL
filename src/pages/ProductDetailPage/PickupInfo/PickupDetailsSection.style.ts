@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import theme from '../../../styles/theme'; // 경로 수정
+import theme from '@styles/theme';
 
 // PickupStoreSection.style.ts 와 중복되는 스타일
 export const InfoRow = css`

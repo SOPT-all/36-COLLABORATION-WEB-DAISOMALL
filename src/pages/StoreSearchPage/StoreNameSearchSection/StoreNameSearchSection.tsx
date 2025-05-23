@@ -3,7 +3,7 @@ import { useStoresByProduct } from '@hooks/queries/useStoresByProduct';
 import type { FilterOption } from '@components/tabs/FilterTabs';
 import SearchBar from '@components/SearchBar/SearchBar';
 import ProductCardRanking from '@components/ProductCard/ProductCardRanking/ProductCardRanking';
-import StoreSearchBar from '../components/StoreSearchBar/StoreSearchBar';
+import StoreSearchBar from '@pages/StoreSearchPage/components/StoreSearchBar/StoreSearchBar';
 import LocationCardList from '@pages/StoreSearchPage/StoreNameSearchSection/LocationCardList/LocationCardList';
 import FilterTabs from '@components/tabs/FilterTabs';
 import * as S from '@pages/StoreSearchPage/StoreNameSearchSection/StoreNameSearchSection.style';
