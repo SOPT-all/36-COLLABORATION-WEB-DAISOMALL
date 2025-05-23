@@ -179,7 +179,7 @@ const ProductDetailPage = () => {
       />
 
       {/* 2. 이미지 캐러셀 - API productImages.main 배열 사용 */}
-      <ImageCarousel images={mainImages} height="50rem" />
+      <ImageCarousel images={mainImages} height="50rem" showSnsHotBadge={true} />
 
       {/* 3. 상품 정보 */}
       <ProductPageInfo 
