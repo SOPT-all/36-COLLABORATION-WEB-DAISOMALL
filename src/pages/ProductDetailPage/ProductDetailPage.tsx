@@ -216,6 +216,7 @@ const ProductDetailPage = () => {
             {popularProductsData.pages[0]?.slice(0, 3).map((product) => (
               <ProductCardVertical 
                 key={product.productId}
+                id={product.productId}
                 size="96"
                 name={product.productName}
                 totalPrice={product.price.toLocaleString()}
@@ -301,6 +302,7 @@ const ProductDetailPage = () => {
             {brandProductsData.products.slice(0, 3).map((product) => (
               <ProductCardVertical 
                 key={product.productId}
+                id={product.productId}
                 size="96"
                 name={product.productName}
                 totalPrice={product.price.toLocaleString()}
@@ -326,6 +328,7 @@ const ProductDetailPage = () => {
             onClickAll={() => console.log('이런 기초스킨케어 상품은 어때요? 전체보기 클릭')}
           />
           <ProductCardVertical 
+            id={999}
             size="96"
             name="다이소 LED 무드등"
             totalPrice="5,000"
