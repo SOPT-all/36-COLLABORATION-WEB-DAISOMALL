@@ -14,7 +14,7 @@ import * as S from './ProductDetailPage.style';
 import theme from '@styles/theme';
 import Divider from '@components/common/divider/Divider';
 import { useState, useRef, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import BottomCarousel from './components/Carousel/BottomCarousel';
 import Review from './components/Review/Review';
 import TodayDiscovery from './components/TodayDiscovery/TodayDiscovery';
@@ -37,6 +37,7 @@ import type {
 
 const ProductDetailPage = () => {
   const { productId } = useParams<{ productId: string }>();
+  const navigate = useNavigate();
   const [productData, setProductData] =
     useState<GetProductDetailResponseData | null>(null);
   const [reviewData, setReviewData] = useState<GetReviewsResponseData | null>(
@@ -207,6 +208,20 @@ const ProductDetailPage = () => {
     '전체 리뷰 개수': reviewData?.reviews?.length || 0,
   });
 
+  // Header 버튼 핸들러
+  const handleBackClick = () => {
+    const idToUse = productId ? Number(productId) : productData?.productId;
+    if (idToUse) {
+      navigate('/store-list', { state: { productId: idToUse } });
+    } else {
+      alert('상세페이지에서 상품 ID를 찾을 수 없습니다!');
+      navigate('/store-list');
+    }
+  };
+  const handleHomeClick = () => {
+    navigate('/');
+  };
+
   return (
     <div css={S.productDetailStyle}>
       {/* 1. 헤더 */}
@@ -217,6 +232,8 @@ const ProductDetailPage = () => {
         showSearchIcon={true}
         showCartIcon={true}
         showHomeIcon={true}
+        onBackClick={handleBackClick}
+        onHomeClick={handleHomeClick}
       />
 
       {/* 2. 이미지 캐러셀 - API productImages.main 배열 사용 */}
