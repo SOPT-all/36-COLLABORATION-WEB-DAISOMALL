@@ -3,7 +3,7 @@ import theme from '@styles/theme';
 
 export const Wrapper = css`
   width: 100%;
-  padding-bottom: 1.6rem;
+  padding-bottom: 3.2rem;
   padding-top: 3.2rem;
   overflow: hidden;
   display: flex;
