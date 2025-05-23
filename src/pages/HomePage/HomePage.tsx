@@ -40,7 +40,6 @@ const HomePage = () => {
 
   return (
     <div css={H.homeWrapper}>
-      <div css={H.paddingWrapper} />
       <Header showHeader={showHeader} showLogo showSearchIcon showCartIcon />
       <HeaderNav headerVisible={showHeader} />
       <HomeCarousel />

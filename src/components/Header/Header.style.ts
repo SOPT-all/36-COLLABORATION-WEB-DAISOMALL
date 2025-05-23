@@ -43,11 +43,19 @@ export const AnimatedWrapper = (visible: boolean) => css`
 `;
 
 export const Wrapper = css`
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  height: 4.8rem;
+  padding: 0 1.6rem;
+  background-color: ${theme.colors.white};
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.6rem;
-  height: 4.8rem;
+  z-index: 11;
 `;
 
 export const LeftContainer = css`

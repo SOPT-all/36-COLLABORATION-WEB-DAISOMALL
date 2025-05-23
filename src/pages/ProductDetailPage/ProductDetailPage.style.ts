@@ -3,6 +3,7 @@ import theme from '@styles/theme';
 
 export const productDetailStyle = css`
   width: 100%;
+  padding-top: 4.8rem;
   max-width: 768px;
   margin: 0 auto;
 `;
@@ -37,7 +38,7 @@ export const productsHorizontalStyle = css`
   gap: 1.2rem;
   overflow-x: auto;
   padding-bottom: 0.8rem;
-  
+
   /* 스크롤바 숨기기 */
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -81,7 +82,7 @@ export const viewMoreButtonWrapper = css`
     rgba(255, 255, 255, 0.05) 1%,
     rgba(255, 255, 255, 0.1) 2%,
     rgba(255, 255, 255, 0.15) 3%,
-    rgba(255, 255, 255, 0.2) 5%, 
+    rgba(255, 255, 255, 0.2) 5%,
     rgba(255, 255, 255, 0.3) 8%,
     rgba(255, 255, 255, 0.4) 12%,
     rgba(255, 255, 255, 0.5) 17%,
@@ -96,4 +97,4 @@ export const viewMoreButtonWrapper = css`
   justify-content: center;
   display: flex;
   align-items: flex-end;
-`; 
+`;
