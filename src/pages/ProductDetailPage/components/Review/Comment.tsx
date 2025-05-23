@@ -10,6 +10,7 @@ interface CommentProps {
   thirdKeyword: string;
   content: string;
   likes: number;
+  imageUrls?: string[];
 }
 
 const Comment = ({
@@ -21,6 +22,7 @@ const Comment = ({
   thirdKeyword,
   content,
   likes,
+  imageUrls = [],
 }: CommentProps) => (
   <div css={S.Wrapper}>
     <div css={S.FirstContainer}>
@@ -29,7 +31,14 @@ const Comment = ({
           {profileImageUrl ? (
             <img src={profileImageUrl} alt="프로필" width={20} height={20} />
           ) : (
-            <div style={{ width: 20, height: 20, borderRadius: '50%', backgroundColor: '#f0f0f0' }} />
+            <div
+              style={{
+                width: 20,
+                height: 20,
+                borderRadius: '50%',
+                backgroundColor: '#f0f0f0',
+              }}
+            />
           )}
           <p css={S.BodyTextStyle}>{nickname}</p>
         </div>
@@ -60,6 +69,19 @@ const Comment = ({
       <p css={S.Review}>{content}</p>
       <p css={S.More}>더보기</p>
     </div>
+
+    {imageUrls.length > 0 && (
+      <div css={S.ImageListContainer}>
+        {imageUrls.map((url, index) => (
+          <img
+            key={index}
+            src={url}
+            alt={`리뷰 이미지 ${index + 1}`}
+            css={S.ImageThumbnail}
+          />
+        ))}
+      </div>
+    )}
 
     <div css={S.ButtonContainer}>
       <div css={S.LeftSection}>

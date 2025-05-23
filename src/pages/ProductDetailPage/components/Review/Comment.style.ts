@@ -26,6 +26,7 @@ export const FirstLeftContainer = css`
 
 export const ProfileSection = css`
   display: flex;
+  gap: 0.5rem;
 `;
 
 export const MiddleSection = css`
@@ -84,6 +85,18 @@ export const Review = css`
 export const More = css`
   ${theme.fonts['button-14R']}
   color: ${theme.colors['gray-04']};
+`;
+
+export const ImageListContainer = css`
+  display: flex;
+  gap: 0.6rem;
+`;
+
+export const ImageThumbnail = css`
+  width: 8rem;
+  height: 8rem;
+  border-radius: 4px;
+  object-fit: cover;
 `;
 
 export const ButtonContainer = css`
