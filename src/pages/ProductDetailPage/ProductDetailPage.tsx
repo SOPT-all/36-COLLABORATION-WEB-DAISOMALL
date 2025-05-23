@@ -284,7 +284,11 @@ const ProductDetailPage = () => {
       <Divider height="8px" color={theme.colors['gray-06']} />
 
       {/* 17. 리뷰 */}  
-      <Review />
+      <Review 
+        reviewData={reviewData}
+        productData={productData}
+        reviewImages={reviewImages}
+      />
       <Divider height="8px" color={theme.colors['gray-06']} />
 
       {/* 18. 기타 정보 */}
