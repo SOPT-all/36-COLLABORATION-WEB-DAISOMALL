@@ -179,11 +179,7 @@ const ProductDetailPage = () => {
       <Divider height="8px" color={theme.colors['gray-06']} />
 
       {/* 8. 이미지 캐러셀 (두번째) */}
-      <ImageCarousel 
-        images={mainImages.slice(0, 2)} 
-        autoplay={false}
-        height="8rem"
-      />
+      <BottomCarousel />
 
       <Divider height="8px" color={theme.colors['gray-06']} />
 
