@@ -7,12 +7,12 @@ import path from 'path';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    tsconfigPaths(),
     react({
       jsxImportSource: '@emotion/react',
       babel: { plugins: ['@emotion/babel-plugin'] },
     }),
     svgr({ svgrOptions: { icon: true } }),
-    tsconfigPaths(),
   ],
   resolve: {
     alias: {
