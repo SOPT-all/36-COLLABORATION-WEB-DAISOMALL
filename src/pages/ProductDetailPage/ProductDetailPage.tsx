@@ -253,7 +253,6 @@ const ProductDetailPage = () => {
           brandName="VT"
           brandDescription="유행을 창조하는 Stylish와 시간에 구애받지 않는 Timeless 효과로 당신의 매일을 함께하는 VT의 스페셜 홈케어! 리들샷의 따끔한 미세자극으로 건강한 피부를 가꿔보세요."
           brandImageUrl="/VT.png"
-          isLoading={false}
         />
       </div>
 
