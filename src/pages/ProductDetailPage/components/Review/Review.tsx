@@ -76,7 +76,11 @@ const Review = ({ reviewData, productData, reviewImages = [] }: ReviewProps) => 
             onClickAll={() => console.log('전체보기 클릭')}
           />
         </div>
-        <PhotoScrollList images={reviewImages} />
+        <PhotoScrollList 
+          isLoading={false}
+          imageUrls={reviewImages}
+          onMoreClick={() => console.log('사진&동영상 더보기 클릭')}
+        />
       </div>
 
       <Divider height="8px" color={theme.colors['gray-06']} />
