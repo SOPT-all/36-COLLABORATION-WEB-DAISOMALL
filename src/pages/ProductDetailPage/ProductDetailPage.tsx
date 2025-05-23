@@ -20,14 +20,15 @@ import Review from './components/Review/Review';
 import TodayDiscovery from './components/TodayDiscovery/TodayDiscovery';
 import Accordion from './components/Accordion/Accordion';
 import BuyBar from './components/BuyBar/BuyBar';
-import { getProductDetail, getReviews, getBrandProducts } from '@apis/detail/product';
-import type { GetProductDetailResponseData, GetReviewsResponseData, GetBrandProductsResponseData } from '@app-types/product';
+import { getProductDetail, getReviews, getBrandProducts, getPopularProducts } from '@apis/detail/product';
+import type { GetProductDetailResponseData, GetReviewsResponseData, GetBrandProductsResponseData, GetPopularProductsResponseData } from '@app-types/product';
 
 const ProductDetailPage = () => {
   const { productId } = useParams<{ productId: string }>();
   const [productData, setProductData] = useState<GetProductDetailResponseData | null>(null);
   const [reviewData, setReviewData] = useState<GetReviewsResponseData | null>(null);
   const [brandProductsData, setBrandProductsData] = useState<GetBrandProductsResponseData | null>(null);
+  const [popularProductsData, setPopularProductsData] = useState<GetPopularProductsResponseData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   
   const [isImageExpanded, setIsImageExpanded] = useState(false);
@@ -42,20 +43,23 @@ const ProductDetailPage = () => {
         const id = productId ? parseInt(productId) : 1; // productId가 없으면 기본값 1 사용
         console.log('API 요청 - productId:', id);
         
-        // 상품 정보, 리뷰, 브랜드별 상품을 병렬로 호출
-        const [productResponse, reviewResponse, brandProductsResponse] = await Promise.all([
+        // 상품 정보, 리뷰, 브랜드별 상품, 인기 상품을 병렬로 호출
+        const [productResponse, reviewResponse, brandProductsResponse, popularProductsResponse] = await Promise.all([
           getProductDetail(id),
           getReviews(id, 0, 20), // 첫 번째 페이지, 20개씩
           getBrandProducts(1, 0, 10), // brandId는 1로 고정, 10개씩
+          getPopularProducts(), // 인기 상품 조회
         ]);
         
         console.log('상품 API 응답:', productResponse);
         console.log('리뷰 API 응답:', reviewResponse);
         console.log('브랜드별 상품 API 응답:', brandProductsResponse);
+        console.log('인기 상품 API 응답:', popularProductsResponse);
         
         setProductData(productResponse);
         setReviewData(reviewResponse);
         setBrandProductsData(brandProductsResponse);
+        setPopularProductsData(popularProductsResponse);
       } catch (error) {
         console.error('API 호출 실패:', error);
       } finally {
@@ -162,21 +166,25 @@ const ProductDetailPage = () => {
 
       <Divider height="8px" color={theme.colors['gray-06']} />
 
-      {/* 7. 상품 카드 (수직형) - API 데이터가 없으면 숨김 */}
-      {false && ( // 추후 추천 상품 API 연결시 조건 변경
+      {/* 7. 상품 카드 (수직형) - 인기 상품 API 데이터 사용 */}
+      {popularProductsData?.pages && popularProductsData.pages.length > 0 && (
         <div css={S.recommendedProductsStyle}>
           <SectionTitle 
             title1="다른 고객이 함께 본 상품"
-            onClickAll={() => console.log('이런 상품은 어때요? 전체보기 클릭')}
+            onClickAll={() => console.log('다른 고객이 함께 본 상품 전체보기 클릭')}
           />
-          <ProductCardVertical 
-            size="96"
-            name="다이소 베이직 노트북 파우치 15인치"
-            totalPrice="5,000"
-            unitPrice="5,000"
-            imageUrl="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
-            tags={[{ label: '베스트', bg: '#FF5C5C', color: '#FFFFFF' }]}
-          />
+          <div css={S.productsHorizontalStyle}>
+            {popularProductsData.pages[0]?.slice(0, 3).map((product) => (
+              <ProductCardVertical 
+                key={product.productId}
+                size="96"
+                name={product.productName}
+                totalPrice={product.price.toLocaleString()}
+                imageUrl="https://images.unsplash.com/photo-1542291026-7eec264c27ff" // 임시 이미지
+                tags={[{ label: '인기', bg: '#FF5C5C', color: '#FFFFFF' }]}
+              />
+            ))}
+          </div>
         </div>
       )}
 

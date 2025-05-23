@@ -58,3 +58,16 @@ export interface GetBrandProductsResponseData {
   products: BrandProduct[];
   pageable: Pageable;
 }
+
+// 인기 상품 조회 API 관련 타입들
+export interface PopularProduct {
+  productId: number;
+  productName: string;
+  productCode: string;
+  price: number;
+}
+
+export interface GetPopularProductsResponseData {
+  pages: PopularProduct[][];
+  total: number;
+}
