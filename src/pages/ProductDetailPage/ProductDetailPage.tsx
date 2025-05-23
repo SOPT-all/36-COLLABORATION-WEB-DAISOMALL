@@ -248,20 +248,22 @@ const ProductDetailPage = () => {
               />
             }
           />
-          {brandProductsData.products.slice(0, 3).map((product) => (
-            <ProductCardVertical 
-              key={product.productId}
-              size="96"
-              name={product.productName}
-              totalPrice={product.price.toLocaleString()}
-              imageUrl="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb" // 임시 이미지
-              tags={product.tags.map(tag => ({ 
-                label: tag, 
-                bg: theme.colors['gray-05'], 
-                color: theme.colors['primary'] 
-              }))}
-            />
-          ))}
+          <div css={S.productsHorizontalStyle}>
+            {brandProductsData.products.slice(0, 3).map((product) => (
+              <ProductCardVertical 
+                key={product.productId}
+                size="96"
+                name={product.productName}
+                totalPrice={product.price.toLocaleString()}
+                imageUrl="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb" // 임시 이미지
+                tags={product.tags.map(tag => ({ 
+                  label: tag, 
+                  bg: theme.colors['gray-05'], 
+                  color: theme.colors['primary'] 
+                }))}
+              />
+            ))}
+          </div>
         </div>
       )}
 

@@ -32,6 +32,20 @@ export const recommendedProductsStyle = css`
   gap: 1.6rem;
 `;
 
+export const productsHorizontalStyle = css`
+  display: flex;
+  gap: 1.2rem;
+  overflow-x: auto;
+  padding-bottom: 0.8rem;
+  
+  /* 스크롤바 숨기기 */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 export const recommendedTitleStyle = css`
   ${theme.fonts['heading-14B']}
 `;
