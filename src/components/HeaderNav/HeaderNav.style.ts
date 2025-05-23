@@ -1,9 +1,28 @@
 import { css } from '@emotion/react';
 import theme from '@styles/theme';
 
-export const Wrapper = css`
+export const MovableNavWrapper = (headerVisible: boolean) => css`
   padding: 1.1rem 1.6rem 0.8rem;
   width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  background-color: ${theme.colors['white']}
+    ${headerVisible &&
+    css`
+      position: fixed;
+      top: 4.8rem;
+      transition: top 0.2s ease;
+      transition-delay: 0.1s;
+      z-index: 1;
+      background-color: white;
+      max-width: 430px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    `};
 `;
 
 export const TabList = css`
@@ -13,12 +32,12 @@ export const TabList = css`
 
 export const BasicText = css`
   position: relative;
-  ${theme.fonts['heading-16B']}
+  ${theme.fonts['heading-16B']};
   color: ${theme.colors['gray-01']};
 `;
 
 export const SelectedText = css`
-  ${theme.fonts['heading-16B']}
+  ${theme.fonts['heading-16B']};
   color: ${theme.colors.primary};
   position: relative;
 
@@ -39,7 +58,6 @@ export const badge = css`
   color: ${theme.colors.primary};
   font-family: Pretendard;
   font-size: 8px;
-  font-style: normal;
   font-weight: 700;
   line-height: 6px;
   letter-spacing: 0.1px;
