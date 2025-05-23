@@ -7,6 +7,7 @@ import StoreSearchBar from '@pages/StoreSearchPage/components/StoreSearchBar/Sto
 import LocationCardList from '@pages/StoreSearchPage/StoreNameSearchSection/LocationCardList/LocationCardList';
 import FilterTabs from '@components/tabs/FilterTabs';
 import * as S from '@pages/StoreSearchPage/StoreNameSearchSection/StoreNameSearchSection.style';
+
 interface StoreNameSearchSectionProps {
   product: {
     productId: number;
@@ -15,10 +16,21 @@ interface StoreNameSearchSectionProps {
     price: string;
     code?: string;
   };
+  onTabSelect?: (tab: string) => void;
+  selectedTab?: string | null;
+  onSearchClear?: () => void;
+  keyword: string;
+  setKeyword: (value: string) => void;
 }
 
-const StoreNameSearchSection = ({ product }: StoreNameSearchSectionProps) => {
-  const [keyword, setKeyword] = useState('');
+const StoreNameSearchSection = ({ 
+  product, 
+  onTabSelect,
+  selectedTab,
+  onSearchClear,
+  keyword,
+  setKeyword
+}: StoreNameSearchSectionProps) => {
   const [filters, setFilters] = useState<FilterOption[]>([]);
 
   const trimmedKeyword = keyword.trim();
@@ -32,8 +44,16 @@ const StoreNameSearchSection = ({ product }: StoreNameSearchSectionProps) => {
     setKeyword(value);
   };
 
+  const handleClear = () => {
+    setKeyword('');
+    onSearchClear?.();
+  };
+
   const handleFilterChange = (selected: FilterOption[]) => {
     setFilters(selected);
+    if (onTabSelect) {
+      onTabSelect(selected.length > 0 ? selected[0] : '');
+    }
   };
 
   const filteredStores = useMemo(
@@ -54,7 +74,12 @@ const StoreNameSearchSection = ({ product }: StoreNameSearchSectionProps) => {
 
   return (
     <div css={S.storeSectionWrapper}>
-      <SearchBar placeholder="상품명, 품번, 브랜드" />
+      <SearchBar 
+        placeholder="상품명, 품번, 브랜드" 
+        value={keyword}
+        onSearch={handleStoreSearch}
+        onClear={handleClear}
+      />
       <div css={S.productWrapper}>
         <ProductCardRanking
           imageUrl={product.imageUrl}
@@ -66,7 +91,7 @@ const StoreNameSearchSection = ({ product }: StoreNameSearchSectionProps) => {
       </div>
       <StoreSearchBar onSearch={handleStoreSearch} />
       <div css={S.filterTabWrapper}>
-        <FilterTabs onChange={handleFilterChange} />
+        <FilterTabs onChange={handleFilterChange} selectedTab={selectedTab} />
       </div>
       {!isLoading && <LocationCardList stores={filteredStores} />}
     </div>

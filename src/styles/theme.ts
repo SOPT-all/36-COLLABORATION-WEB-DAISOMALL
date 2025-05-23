@@ -154,6 +154,13 @@ const theme = {
       lineHeight: '100%',
       letterSpacing: '0px',
     },
+    'number-24R': {
+      fontFamily: 'Daiso',
+      fontWeight: 400,
+      fontSize: '24px',
+      lineHeight: '100%',
+      letterSpacing: '0px',
+    },
     'number-18R': {
       fontFamily: 'Daiso',
       fontWeight: 400,

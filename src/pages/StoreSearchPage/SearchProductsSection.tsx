@@ -1,4 +1,3 @@
-// src/pages/StoreSearchPage/SearchProductsSection.tsx
 import { useState, useEffect } from 'react';
 import * as S from './SearchProductsSection.style';
 import SearchBar from '@components/SearchBar/SearchBar';
@@ -7,23 +6,29 @@ import SearchResultTitle from '@components/searchResultTitle/SearchResultTitle';
 import SearchEmptyResult from '@components/searchEmptyResult/SearchEmptyResult';
 import { useSearchProducts } from '@hooks/queries/useSearchProducts';
 import type { SearchProductsResponseData, SortOptionType } from '@app-types/apiResponseType';
+import useDebounce from '@hooks/useDebounce';
 
 type SortOption = SortOptionType;
 
 interface SearchProductsSectionProps {
   initialKeyword?: string;
   onSearchClear?: () => void;
+  onProductSelect?: (productId: number) => void;
 }
 
 const SearchProductsSection = ({
   initialKeyword = '',
-  onSearchClear
+  onSearchClear,
+  onProductSelect
 }: SearchProductsSectionProps) => {
   const [keyword, setKeyword] = useState(initialKeyword);
   const [sortOption, setSortOption] = useState<SortOption | undefined>(undefined);
   
+  // debounce 적용
+  const debouncedKeyword = useDebounce(keyword, 300);
+  
   const { data, isLoading, error } = useSearchProducts(
-    keyword,
+    debouncedKeyword,
     0,
     20,
     sortOption
@@ -49,6 +54,10 @@ const SearchProductsSection = ({
   
   const handleSortChange = (option: SortOption) => {
     setSortOption(option);
+  };
+
+  const handleProductClick = (productId: number) => {
+    onProductSelect?.(productId);
   };
 
   // 검색어가 없을 때는 빈 화면 표시
@@ -123,13 +132,17 @@ const SearchProductsSection = ({
         />
         <div css={S.ProductsContainer}>
           {data.products.map((product: SearchProductsResponseData['products'][0]) => (
-            <div css={S.ProductCardWrapper} key={product.productId}>
+            <div 
+              css={S.ProductCardWrapper} 
+              key={product.productId}
+              onClick={() => handleProductClick(product.productId)}
+            >
               <ProductCardRanking
                 imageUrl={product.mainImage}
                 name={product.productName}
                 price={product.price.toLocaleString()}
                 code={product.productCode}
-                showCartIcon={true}
+                showCartIcon={false}
               />
             </div>
           ))}

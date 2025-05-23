@@ -12,25 +12,19 @@ export const Rating = css`
 export const RatingIconWrapper = css`
   width: 1.1rem;
   height: 1.1rem;
+  display: flex;
   justify-content: center;
   align-items: center;
-  display: flex;
 `;
 
 export const RatingText = css`
   color: ${theme.colors['gray-03']};
-  font-size: 12px;
-  font-family: Pretendard;
-  font-weight: 400;
-  line-height: 145%;
+  ${theme.fonts['caption-12R']};
   word-wrap: break-word;
 `;
 
 export const ReviewCount = css`
   color: ${theme.colors['gray-03']};
-  font-size: 12px;
-  font-family: Pretendard;
-  font-weight: 400;
-  line-height: 145%;
+  ${theme.fonts['caption-12R']};
   word-wrap: break-word;
 `; 

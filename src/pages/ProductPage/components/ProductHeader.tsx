@@ -2,21 +2,34 @@
 import * as S from './ProductHeader.style';
 import { ArrowRightIcon } from '@assets/svgs';
 
-const ProductHeader = () => {
+interface ProductHeaderProps {
+  brandName?: string;
+  productName?: string;
+  price?: string;
+}
+
+const ProductHeader = ({ brandName, productName, price }: ProductHeaderProps) => {
+  // price를 숫자로 변환하고 포맷팅
+  const formatPrice = (priceStr?: string) => {
+    if (!priceStr) return '0';
+    const numPrice = parseInt(priceStr);
+    return numPrice.toLocaleString();
+  };
+
   return (
     <header css={S.ProductBrandAndName}>
       <div css={S.Brand}>
-        <span css={S.BrandText}>VT</span>
+        <span css={S.BrandText}>{brandName || ''}</span>
         <span css={S.RightArrowWrapper}>
           <ArrowRightIcon css={S.RightArrow} />
         </span>
       </div>
       <div css={S.NameAndPrice}>
         <h1 css={S.ProductName}>
-          VT 리들샷 100 페이셜 부스팅 퍼스트 앰플 2ml*6개입
+          {productName || ''}
         </h1>
         <p css={S.Price}>
-          <span css={S.PriceAmount}>3,000</span>
+          <span css={S.PriceAmount}>{formatPrice(price)}</span>
           <span css={S.PriceUnit}>원</span>
         </p>
       </div>
