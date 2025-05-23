@@ -9,10 +9,39 @@ import {
 } from '@assets/svgs';
 import * as S from './BottomNav.style';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+
+const BOTTOM_NAV_HEIGHT_REM = 5.6;
+const CIRCLE_BUTTON_OVER_REM = 3;
+const TOTAL_HIDE_HEIGHT_REM = BOTTOM_NAV_HEIGHT_REM + CIRCLE_BUTTON_OVER_REM;
 
 const BottomNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const scrollDifference = currentScrollY - lastScrollY;
+      
+      // 스크롤 차이가 10px 이상일 때만 동작하도록 설정
+      if (Math.abs(scrollDifference) > 10) {
+        if (scrollDifference > 0) {
+          // 스크롤 다운
+          setIsVisible(false);
+        } else {
+          // 스크롤 업
+          setIsVisible(true);
+        }
+        setLastScrollY(currentScrollY);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   // 현재 경로에 따라 탭 결정
   const getSelectedTab = () => {
@@ -25,7 +54,7 @@ const BottomNav = () => {
   const selectedTab = getSelectedTab();
 
   return (
-    <nav css={S.Wrapper}>
+    <nav css={[S.Wrapper, { transform: isVisible ? 'translateY(0)' : `translateY(${TOTAL_HIDE_HEIGHT_REM}rem)` }]}>
       <div css={S.Container}>
         <CategoryIconNew css={S.BasicIcon} />
         <p css={S.Caption}>카테고리</p>
