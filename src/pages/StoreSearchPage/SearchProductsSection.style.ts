@@ -39,6 +39,7 @@ export const ProductCardWrapper = css`
   height: 11.2rem;
   padding: 1.1rem 1.2rem;
   align-items: center;
+  cursor: pointer;
   gap: 1.6rem;
   border-radius: 0.8rem;
   border: 1px solid var(--gray-05, #ebe9ee);
