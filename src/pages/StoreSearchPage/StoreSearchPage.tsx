@@ -16,7 +16,7 @@ const StoreSearchPage = () => {
   const location = useLocation();
   const { data } = usePopularProducts();
   const allProducts = data?.pages ? data.pages.flat() : [];
-  
+
   const [searchKeyword, setSearchKeyword] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<{
     productId: number;
@@ -32,7 +32,9 @@ const StoreSearchPage = () => {
     const isFromQuickMenu = location.state?.fromQuickMenu;
     if (isFromQuickMenu) {
       // 인기 상품 섹션으로 스크롤
-      const popularSection = document.querySelector('#popular-products-section');
+      const popularSection = document.querySelector(
+        '#popular-products-section',
+      );
       if (popularSection) {
         popularSection.scrollIntoView({ behavior: 'smooth' });
       }
@@ -45,9 +47,12 @@ const StoreSearchPage = () => {
     if (
       productIdFromState &&
       allProducts.length > 0 &&
-      (!selectedProduct || selectedProduct.productId !== Number(productIdFromState))
+      (!selectedProduct ||
+        selectedProduct.productId !== Number(productIdFromState))
     ) {
-      const found = allProducts.find((p) => p.productId === Number(productIdFromState));
+      const found = allProducts.find(
+        (p) => p.productId === Number(productIdFromState),
+      );
       if (found) {
         setSelectedProduct({
           productId: found.productId,
@@ -60,16 +65,17 @@ const StoreSearchPage = () => {
     }
   }, [location.state, allProducts, selectedProduct]);
 
-  // allProducts가 비어있고 productId가 state에 있으면 렌더링 잠시 멈춤
+  // AllProducts가 비어있고 productId가 state에 있으면 렌더링 잠시 멈춤
   if (location.state?.productId && allProducts.length === 0) {
     return null; // 또는 로딩 스피너
   }
 
-  // productId가 state에 있는데 selectedProduct가 아직 세팅 안 됐으면 렌더링 잠시 멈춤
+  // ProductId가 state에 있는데 selectedProduct가 아직 세팅 안 됐으면 렌더링 잠시 멈춤
   if (
     location.state?.productId &&
     allProducts.length > 0 &&
-    (!selectedProduct || selectedProduct.productId !== Number(location.state.productId))
+    (!selectedProduct ||
+      selectedProduct.productId !== Number(location.state.productId))
   ) {
     return null; // 또는 로딩 스피너
   }
@@ -77,8 +83,8 @@ const StoreSearchPage = () => {
   const handleSearch = (keyword: string) => {
     setSearchKeyword(keyword);
     setSelectedTab(null);
+    setSelectedProduct(null);
   };
-
   const handleProductSelect = (productId: number) => {
     const found = allProducts.find((p) => p.productId === productId);
     if (!found) return;
@@ -115,24 +121,28 @@ const StoreSearchPage = () => {
 
   return (
     <div css={pageLayoutStyle}>
-      <Header 
-        showBackButton 
-        showTitle 
-        title="매장 상품 찾기" 
-        showCartIcon 
+      <Header
+        showBackButton
+        showTitle
+        title="매장 상품 찾기"
+        showCartIcon
         onBackClick={handleBackButton}
       />
       <Divider />
 
       <div css={contentAreaStyle}>
         {selectedProduct ? (
-          <StoreNameSearchSection 
-            product={selectedProduct} 
-            onTabSelect={handleTabSelect}
-            selectedTab={selectedTab}
-            onSearchClear={() => setSelectedProduct(null)}
+          <StoreNameSearchSection
+            product={selectedProduct}
             keyword={searchKeyword}
             setKeyword={setSearchKeyword}
+            onSearchClear={() => setSelectedProduct(null)}
+            onTabSelect={handleTabSelect}
+            selectedTab={selectedTab}
+            onProductSearch={(keyword) => {
+              setSearchKeyword(keyword);
+              setSelectedProduct(null);
+            }}
           />
         ) : searchKeyword ? (
           <SearchProductsSection

@@ -21,6 +21,7 @@ interface StoreNameSearchSectionProps {
   onSearchClear?: () => void;
   keyword: string;
   setKeyword: (value: string) => void;
+  onProductSearch?: (keyword: string) => void; // ✅ 추가
 }
 
 const StoreNameSearchSection = ({
@@ -30,18 +31,18 @@ const StoreNameSearchSection = ({
   onSearchClear,
   keyword,
   setKeyword,
+  onProductSearch,
 }: StoreNameSearchSectionProps) => {
   const [filters, setFilters] = useState<FilterOption[]>([]);
+  const [storeNameKeyword, setStoreNameKeyword] = useState('');
 
-  const trimmedKeyword = keyword.trim();
+  const handleStoreNameSearch = (value: string) => {
+    setStoreNameKeyword(value);
+  };
 
-  const { data: stores = [], isLoading } = useStoresByProduct({
-    productId: product.productId,
-    keyword: trimmedKeyword === '' ? undefined : trimmedKeyword,
-  });
-
-  const handleStoreSearch = (value: string) => {
-    setKeyword(value);
+  const handleProductSearch = (value: string) => {
+    if (value.trim() === '') return;
+    onProductSearch?.(value);
   };
 
   const handleClear = () => {
@@ -56,17 +57,29 @@ const StoreNameSearchSection = ({
     }
   };
 
+  const trimmedKeyword = keyword.trim();
+  const { data: stores = [], isLoading } = useStoresByProduct({
+    productId: product.productId,
+    keyword: trimmedKeyword === '' ? undefined : trimmedKeyword,
+  });
+
   const filteredStores = useMemo(
     () =>
-      stores.filter(
-        (store) =>
-          !(
-            (filters.includes('pickup-able') && !store.isPickupAvailable) ||
-            (filters.includes('no-soldout') &&
-              (store.stockCount === 0 || store.stockStatus === '재고 소진'))
-          ),
-      ),
-    [stores, filters],
+      stores.filter((store) => {
+        const matchPickup =
+          !filters.includes('pickup-able') || store.isPickupAvailable;
+        const matchStock =
+          !filters.includes('no-soldout') ||
+          (store.stockCount > 0 && store.stockStatus !== '재고 소진');
+        const matchName =
+          storeNameKeyword.trim() === '' ||
+          store.storeName
+            .toLowerCase()
+            .includes(storeNameKeyword.trim().toLowerCase());
+
+        return matchPickup && matchStock && matchName;
+      }),
+    [stores, filters, storeNameKeyword],
   );
 
   return (
@@ -74,7 +87,7 @@ const StoreNameSearchSection = ({
       <SearchBar
         placeholder="상품명, 품번, 브랜드"
         value={keyword}
-        onSearch={handleStoreSearch}
+        onSearch={handleProductSearch}
         onClear={handleClear}
       />
       <div css={S.productWrapper}>
@@ -86,10 +99,13 @@ const StoreNameSearchSection = ({
           showCartIcon
         />
       </div>
-      <StoreSearchBar onSearch={handleStoreSearch} />
+
+      <StoreSearchBar onSearch={handleStoreNameSearch} />
+
       <div css={S.filterTabWrapper}>
         <FilterTabs onChange={handleFilterChange} selectedTab={selectedTab} />
       </div>
+
       {!isLoading && (
         <LocationCardList
           productId={product.productId}
