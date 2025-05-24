@@ -2,11 +2,13 @@ import { css } from '@emotion/react';
 import theme from '@styles/theme';
 
 export const Wrapper = css`
+  position: fixed;
+  bottom: 0;
+  transform: translateX(-50%);
+  max-width: 430px;
   display: flex;
   justify-content: space-between;
   position: fixed;
-  bottom: 0;
-  left: 0;
   width: 100%;
   height: 5.6rem;
   z-index: 100;
